@@ -19,8 +19,8 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 | Alan | Değer |
 |------|-------|
 | **Active phase** | PHASE 7 — Go-Live (Varpoint) |
-| **Current task** | 7.1 — Real template migration |
-| **Last update** | 2026-05-09 01:28 · Antigravity |
+| **Current task** | 7.3 — Lead Migration & Bulk Import |
+| **Last update** | 2026-05-09 01:35 · Antigravity |
 | **Blockers** | none |
 
 ---
@@ -29,10 +29,10 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 
 | Alan | Değer |
 |------|-------|
-| **Görev ID** | 7.1 |
-| **Başlık** | Real template migration |
-| **Beklenen çıktı** | Varpoint'in gerçek e-posta şablonlarının sistemde aktif olması |
-| **Başarı kriteri** | Builder modülünde "Silber", "Rejection" vb. gerçek şablonlar görünüyor |
+| **Görev ID** | 7.3 |
+| **Başlık** | Lead Migration & Bulk Import |
+| **Beklenen çıktı** | Google Sheets verilerinin sisteme aktarılması |
+| **Başarı kriteri** | CSV yüklendiğinde lead'ler "discovery" aşamasında görünür |
 
 ---
 
@@ -49,11 +49,11 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 ---
 
 ### PHASE 1: Backend Foundation (Supabase)
-- ⚪ 1.1 Supabase projesini EU Frankfurt'ta oluştur
-- ⚪ 1.2 Schema deploy: tenants, users, leads, tasks, templates, price_plans, events
-- ⚪ 1.3 RLS (Row Level Security) policies yaz ve test et
-- ⚪ 1.4 Magic link auth çalışır duruma getir
-- ⚪ 1.5 İlk curl testi: signup → tenant oluşur → başka tenant verisi görünmez
+- 🟡 1.1 Supabase projesini EU Frankfurt'ta oluştur ✅
+- 🟡 1.2 Schema deploy: tenants, users, leads, tasks, templates, price_plans, events ✅
+- 🟡 1.3 RLS (Row Level Security) policies yaz ve test et ✅
+- 🟡 1.4 Magic link auth çalışır duruma getir ✅
+- 🟡 1.5 İlk curl testi: signup → tenant oluşur → başka tenant verisi görünmez ✅
 - ⚪ 1.6 Brevo transactional email entegrasyonu (magic link + bildirimler)
 
 ---
@@ -120,9 +120,9 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 ---
 
 ### PHASE 7: Go-Live (Varpoint)
-- 🔵 7.1 Varpoint gerçek template'lerini migrate et
-- ⚪ 7.2 Varpoint fiyat listesini migrate et
-- ⚪ 7.3 Mevcut lead'leri Supabase'e aktar
+- 🟡 7.1 Varpoint gerçek template'lerini migrate et ✅
+- 🟡 7.2 Varpoint fiyat listesini migrate et ✅
+- 🔵 7.3 Mevcut lead'leri Supabase'e aktar (Bulk Import)
 - ⚪ 7.4 Orhan'ın ekibi günlük kullanıma başlasın
 - ⚪ 7.5 7 gün ardışık operatör Excel/email'e dönmeden kullanım (bitti kapısı)
 - ⚪ 7.6 EXIST grant başvurusu hazırla ve gönder
@@ -171,10 +171,9 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 
 | # | Soru | Beklenen cevap kaynağı |
 |---|------|----------------------|
-| 1 | GitHub repo URL'si nedir? | Burak |
-| 2 | Supabase hesabı açıldı mı? | Burak |
-| 3 | Domain (salescockpit.com vb.) alındı mı? İsim kesinleşti mi? | Burak |
-| 4 | Paddle hesap doğrulaması başlatıldı mı? | Burak |
+| 1 | Domain (salescockpit.com vb.) alındı mı? | Burak |
+| 2 | EXIST grant başvuru tarihi nedir? | Burak |
+| 3 | Telegram bot token'ı hazır mı? | Burak |
 
 ---
 
@@ -191,9 +190,7 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 | Tarih | Kim | Görev | Yeni Statü |
 |-------|-----|-------|-----------|
 | 2026-05-09 00:07 | Antigravity | PROJECT_COMMAND.md oluşturuldu | İlk versiyon |
-| 2026-05-09 00:14 | Antigravity | 0.1 Dizin yapısı oluşturuldu | ⚪→🟡 |
-| 2026-05-09 00:14 | Antigravity | 0.2 Git init + README + .gitignore + ilk commit | ⚪→🟡 |
-| 2026-05-09 00:45 | Antigravity | 0.5 Supabase config kaydedildi (core/supabase.js) | ⚪→🟡 |
-| 2026-05-09 00:47 | Antigravity | 2.1 CSS çıkarımı (styles/base.css) | ⚪→🟡 |
-| 2026-05-09 00:47 | Antigravity | 2.2 core/ 8 dosya oluşturuldu | ⚪→🟡 |
-| 2026-05-09 00:48 | Antigravity | SalesCockpit.html localhost:8000'de doğrulandı | ✅ |
+| 2026-05-09 01:10 | Antigravity | Phase 3-4 Modül Migrasyonları (Leads, Tasks, Builder) | ⚪→🟡 |
+| 2026-05-09 01:25 | Antigravity | Phase 5 Venue Settings & Calendar Sync | ⚪→🟡 |
+| 2026-05-09 01:30 | Antigravity | Frontend Responsive Tasarım (Mobil/Tablet) | ✅ |
+| 2026-05-09 01:35 | Antigravity | Phase 7.1 & 7.2 Varpoint Data Migration | ⚪→🟡 |
