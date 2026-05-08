@@ -1,55 +1,29 @@
-# SalesCockpit
+# SalesCockpit — Modular SaaS for VR Venues
 
-Sales Operating System for Experience Venues.
+SalesCockpit is a high-performance, multi-tenant sales automation platform designed specifically for Virtual Reality Parks and Event Venues.
 
-## Quick Start
+## 🏗️ Architecture
+- **Core**: Vanilla JavaScript (ES Modules) for zero-dependency speed.
+- **Backend**: Supabase (PostgreSQL, Auth, RLS) hosted in **EU-Frankfurt** (GDPR compliant).
+- **Styling**: Modern Vanilla CSS with a focus on responsiveness and premium aesthetics.
+- **Modularity**: Plug-and-play module system using a standardized `mount/unmount` contract.
 
-```bash
-# Local development (ES modules require HTTP)
-python3 -m http.server 8000
+## 🔑 Key Features
+- **Smart Offer Builder**: Dynamic template generation with real-time pricing.
+- **Multi-Tenancy**: Data isolation via Row Level Security (RLS). Each venue sees only its data.
+- **Calendar Sync**: Live integration with Google/Outlook for availability checking.
+- **Finance Export**: DATEV/sevDesk compatible CSV exports for accounting.
+- **Bulk Migration**: Tools for importing leads from Google Sheets/CSV.
 
-# Open in browser
-open http://localhost:8000
-```
+## 🗺️ Roadmap & Scale
+- [x] Phase 0-5: Core Modular SaaS & Supabase Integration
+- [x] Phase 7: Varpoint Go-Live (Borsigturm Berlin)
+- [x] Phase 6: Compliance & Telegram Automation
+- [x] Phase 8: Onboarding & GTM Readiness
+- [ ] Phase 9: Scale — Onboarding 25+ venues in Berlin area.
+- [ ] Grants: Preparing **EXIST** & **Berlin Startup Stipendium** applications.
 
-## Architecture
-
-```
-salescockpit/
-├── index.html              ← Shell (sidebar, header, splash, login)
-├── SalesCockpit.html       ← Original monolith (reference)
-├── PROJECT_COMMAND.md       ← Central command file
-├── core/                   ← State, router, loader, i18n, utils
-├── modules/                ← 11 independent modules
-│   ├── builder/
-│   ├── availability/
-│   ├── callguidance/
-│   ├── leads/
-│   ├── tasks/
-│   ├── workflow/
-│   ├── resources/
-│   ├── analytics/
-│   ├── automation/
-│   └── permissions/
-├── engine/                 ← Decision engine, pricing, templates
-├── data/                   ← Default JSON configs
-└── styles/                 ← CSS files
-```
-
-## Module Contract
-
-Every module exports:
-```js
-export const meta = { id: 'leads', label: { de: 'Leads', en: 'Leads' } };
-export function mount(rootEl, ctx) { /* render UI */ }
-export function unmount() { /* cleanup */ }
-```
-
-## Stack
-
-- **Frontend**: Vanilla JS, ES Modules, no build step
-- **Backend**: Supabase (EU Frankfurt)
-- **Auth**: Magic link (Supabase Auth)
-- **Hosting**: Cloudflare Pages (GitHub auto-deploy)
-- **Payments**: Paddle (MoR)
-- **Email**: Brevo (transactional)
+## 🛠️ Development
+1. Clone repo
+2. Run a local server (e.g., `npx serve .`)
+3. Access `index.html`

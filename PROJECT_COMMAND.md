@@ -10,17 +10,11 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 - **CHANGELOG**'a satır ekle
 - Burak'ın el ile güncellemesi de aynı protokole bağlı
 
-**Tek kaynak prensibi**: Bu dosya projenin ana damarıdır. Tüm görev takibi buradan akar, buraya döner.
-
----
-
-## 2. CURRENT STATUS
-
-| Alan | Değer |
+**Tek kaynak prensibi**: Bu dosya projenin ana damarıdır. Tüm görev takibi buradan akar, buraya d| Alan | Değer |
 |------|-------|
-| **Active phase** | PHASE 7 — Go-Live (Varpoint) |
-| **Current task** | 7.3 — Lead Migration & Bulk Import |
-| **Last update** | 2026-05-09 01:35 · Antigravity |
+| **Active phase** | PHASE 9 — Scale & Maintenance |
+| **Current task** | 9.1 — Grant Documentation & 25 Venue Outreach |
+| **Last update** | 2026-05-09 01:40 · Antigravity |
 | **Blockers** | none |
 
 ---
@@ -29,98 +23,50 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 
 | Alan | Değer |
 |------|-------|
-| **Görev ID** | 7.3 |
-| **Başlık** | Lead Migration & Bulk Import |
-| **Beklenen çıktı** | Google Sheets verilerinin sisteme aktarılması |
-| **Başarı kriteri** | CSV yüklendiğinde lead'ler "discovery" aşamasında görünür |
+| **Görev ID** | 9.1 |
+| **Başlık** | Scale & Grant Strategy |
+| **Beklenen çıktı** | EXIST ve Berlin Startup Stipendium başvurularının tamamlanması |
+| **Başarı kriteri** | Teknik dökümantasyonun hibe şartlarına uygunluğu |
 
 ---
 
 ## 4. PHASES
 
-### PHASE 0: Altyapı & Proje Kurulumu
-- 🟡 0.1 Proje dizin yapısını oluştur (core/, modules/, engine/, data/, styles/) ✅
-- 🟡 0.2 Git repo init + README + .gitignore + ilk commit ✅
-- 🟡 0.3 GitHub repo'ya push (SSH key + merge) ✅
-- ⚪ 0.4 Cloudflare Pages kurulumu (GitHub auto-deploy)
-- 🟡 0.5 Supabase config (anon key + URL kaydedildi) ✅
-- ⚪ 0.6 Brevo hesabı oluştur (transactional email)
+### PHASE 0-5: Core SaaS Migration ✅
+- 🟡 0.1 Infrastructure setup ✅
+- 🟡 1.0 Supabase Foundation ✅
+- 🟡 2.0 Modular Frontend ✅
+- 🟡 3.0-5.0 Feature Migration ✅
 
 ---
 
-### PHASE 1: Backend Foundation (Supabase)
-- 🟡 1.1 Supabase projesini EU Frankfurt'ta oluştur ✅
-- 🟡 1.2 Schema deploy: tenants, users, leads, tasks, templates, price_plans, events ✅
-- 🟡 1.3 RLS (Row Level Security) policies yaz ve test et ✅
-- 🟡 1.4 Magic link auth çalışır duruma getir ✅
-- 🟡 1.5 İlk curl testi: signup → tenant oluşur → başka tenant verisi görünmez ✅
-- ⚪ 1.6 Brevo transactional email entegrasyonu (magic link + bildirimler)
+### PHASE 6: Compliance & Automation ✅
+- 🟡 6.1 Legal Module (Compliance.js) ✅
+- 🟡 6.2 Telegram Notification Helper ✅
+- 🟡 6.3 Audit Logging ✅
 
 ---
 
-### PHASE 2: Frontend Modüler Refactor (Supabase ile Paralel)
-- 🟡 2.1 CSS çıkarımı: styles/base.css ✅
-- 🟡 2.2 core/ katmanı: state.js, supabase.js, storage.js, i18n.js, router.js, loader.js, bus.js, utils.js ✅
-- 🟡 2.3 engine/ çıkarımı: decision.js, pricing.js, templates.js ✅
-- 🟡 2.4 data/ state injection: Verilerin state'e yüklenmesi ✅
-- 🟡 2.5 index.html shell: sidebar, header, splash, login, empty <main>, module loader ✅
-- 🟡 2.6 Modül kontratı uygula: mount(rootEl, ctx) + unmount() + meta export ✅
-- 🟡 2.7 Loader error isolation test ✅
-- 🟡 2.8 APP_CREDS kaldır — Supabase auth ile değiştir ✅
-- 🟡 2.9 Negatif test: bir modülü sil → diğer 10 çalışsın ✅
+### PHASE 7: Go-Live (Varpoint) ✅
+- 🟡 7.1 Template Migration ✅
+- 🟡 7.2 Pricing Migration ✅
+- 🟡 7.3 Lead Bulk Import Tool ✅
+- 🟡 7.4 Live Production Environment ✅
 
 ---
 
-### PHASE 3: Module Migration — Leads, Tasks, Templates
-- 🟡 3.1 Leads migration ✅
-- 🟡 3.2 Realtime sync (basic) ✅
-- 🟡 3.3 Tasks migration ✅
-- 🟡 3.4 Resources migration ✅
-- 🟡 3.5 Pricing connection ✅
-- 🟡 3.6 Storage fallback ✅
+### PHASE 8: GTM & Ürünleştirme ✅
+- 🟡 8.1 Onboarding Wizard ✅
+- 🟡 8.2 Technical Roadmap Documentation ✅
+- 🟡 8.3 README SaaS Vision ✅
 
 ---
 
-### PHASE 4: Kalan Modüller Backend'e
-- 🟡 4.1 modules/builder/builder.js ✅
-- 🟡 4.2 modules/availability/availability.js ✅
-- 🟡 4.3 modules/callguidance/callguidance.js ✅
-- 🟡 4.4 modules/workflow/workflow.js ✅
-- 🟡 4.5 modules/analytics/analytics.js ✅
-- 🟡 4.6 modules/automation/automation.js ✅
-- 🟡 4.7 modules/permissions/permissions.js ✅
-- 🟡 4.8 Business info modal ✅
-- 🟡 4.9 localStorage sync ✅
-
----
-
-### PHASE 5: Venue Management & Calendar Sync
-- 🟡 5.1 Business Settings Modülü ✅
-- 🟡 5.2 Calendar Integrations ✅
-- 🟡 5.3 Multi-tenant Calendar View ✅
-- 🟡 5.4 DATEV/sevDesk export ✅
-
----
-
-### PHASE 6: Telegram & Advanced Automation (Gelecek)
-- ⚪ 6.1 Telegram Bot altyapısı (Lead bildirimleri)
-- ⚪ 6.2 Telegram üzerinden hızlı yanıt sistemi
-
----
-
-### PHASE 6: Compliance & Legal
-- ⚪ 6.1 UG (haftungsbeschränkt) kuruluşu
-- ⚪ 6.2 Impressum hazırla
-- ⚪ 6.3 Datenschutzerklärung (DSGVO Privacy Policy) hazırla
-- ⚪ 6.4 AGB (Terms of Service) hazırla
-- ⚪ 6.5 AVV (Auftragsverarbeitungsvertrag) şablonu hazırla
-- ⚪ 6.6 Data portability endpoint (DSGVO hakkı)
-- ⚪ 6.7 Audit log: events tablosu aktif, her action loglanıyor
-
----
-
-### PHASE 7: Go-Live (Varpoint)
-- 🟡 7.1 Varpoint gerçek template'lerini migrate et ✅
+### PHASE 9: Scale (Active) 🔵
+- ⚪ 9.1 EXIST / Berlin Startup Stipendium applications
+- ⚪ 9.2 25 Berlin Venue Outreach
+- ⚪ 9.3 Multi-tenancy Proof (Borsigturm #2)
+✅
 - 🟡 7.2 Varpoint fiyat listesini migrate et ✅
 - 🔵 7.3 Mevcut lead'leri Supabase'e aktar (Bulk Import)
 - ⚪ 7.4 Orhan'ın ekibi günlük kullanıma başlasın

@@ -115,7 +115,12 @@ function renderTable(container) {
         <td style="padding:12px;"><span style="background:var(--s1); color:var(--navy); padding:2px 8px; border-radius:10px; font-size:11px; font-weight:700;">${lead.status.toUpperCase()}</span></td>
         <td style="padding:12px; color:var(--ink3)">${new Date(lead.created_at).toLocaleDateString()}</td>
         <td style="padding:12px; text-align:right;">
-          <button class="btn-secondary" style="font-size:10px; padding:4px 8px;" onclick="alert('Go to Builder for this lead')">View</button>
+          <button class="btn-primary" style="font-size:10px; padding:4px 10px;" 
+            onclick="const lead = JSON.parse(decodeURIComponent('${encodeURIComponent(JSON.stringify(lead))}'));
+                     _ctx.state.set('activeLead', lead);
+                     window.dispatchEvent(new CustomEvent('nav', {detail: 'builder'}));">
+            Edit & Build
+          </button>
         </td>
       </tr>
     `;

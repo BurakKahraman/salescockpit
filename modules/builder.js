@@ -24,7 +24,9 @@ import * as decision from '../engine/decision.js';
 
 export async function mount(rootEl, ctx) {
   _ctx = ctx;
-  const { state } = ctx;
+  const { state, engine } = ctx;
+  const activeLead = state.get('activeLead');
+  const leadName = activeLead?.data?.Name || 'Guest';
   const type = state.get('type') || 'b2b';
   const priceList = state.get('priceList') || {};
 
@@ -42,6 +44,9 @@ export async function mount(rootEl, ctx) {
       <div id="builder-main" style="flex:1; display:flex; overflow:hidden">
         <!-- Left: Price Index -->
         <div id="bl-left" style="width:220px; border-right:1px solid var(--bd); padding:16px; background:var(--bg); overflow-y:auto">
+          <h2 style="font-size:12px; font-weight:700; margin-bottom:12px; color:var(--navy)">
+             ${activeLead ? 'Editing: ' + leadName : 'Select a Lead'}
+          </h2>
           <div style="font-size:10px; font-weight:700; color:var(--ink3); margin-bottom:12px; text-transform:uppercase">Paketauswahl</div>
           ${renderPriceIndex(priceList[type])}
         </div>
