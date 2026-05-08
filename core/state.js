@@ -5,11 +5,16 @@
  * ══════════════════════════════════════════════════════════ */
 
 import * as bus from './bus.js';
+import { CFG } from '../data/config.js';
 
 const _state = {
-  // Auth
+  // Auth & Tenant
   user: null,
   isAuthenticated: false,
+  tenant: {
+    id: '00000000-0000-0000-0000-000000000000',
+    ...CFG.biz
+  },
 
   // UI state
   lang: 'de',

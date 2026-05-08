@@ -17,10 +17,16 @@ export async function mount(rootEl, ctx) {
   const { supabase, state, utils } = ctx;
 
   rootEl.innerHTML = `
+  rootEl.innerHTML = `
     <div style="padding: 24px; display: flex; flex-direction: column; gap: 20px; height: 100%;">
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <h1 style="font-size: 24px; font-weight: 800; color: var(--navy)">Leads</h1>
-        <button id="btn-refresh" class="btn-secondary">Refresh</button>
+        <div style="display:flex; gap:10px;">
+           <input type="file" id="csv-import-file" style="display:none" accept=".csv">
+           <button id="btn-import" class="btn-secondary">Import CSV</button>
+           <button id="btn-refresh" class="btn-secondary">Refresh</button>
+           <button id="btn-add" class="btn-primary">+ New Lead</button>
+        </div>
       </div>
 
       <div id="leads-table-container" style="background:#fff; border:1px solid var(--bd); border-radius:12px; flex:1; overflow:auto;">
@@ -29,9 +35,44 @@ export async function mount(rootEl, ctx) {
     </div>
   `;
 
+  const fileInput = rootEl.querySelector('#csv-import-file');
+  rootEl.querySelector('#btn-import').onclick = () => fileInput.click();
   rootEl.querySelector('#btn-refresh').onclick = () => loadLeads(rootEl);
+  rootEl.querySelector('#btn-add').onclick = () => alert('Add Lead Modal coming soon...');
+
+  fileInput.onchange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const text = await file.text();
+    await processCSV(text);
+    loadLeads(rootEl);
+  };
 
   loadLeads(rootEl);
+}
+
+async function processCSV(csvText) {
+  const lines = csvText.split('\n').filter(l => l.trim());
+  if (lines.length < 2) return;
+  const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+  
+  const leadsToInsert = lines.slice(1).map(line => {
+    const values = line.split(',').map(v => v.trim().replace(/"/g, ''));
+    const data = {};
+    headers.forEach((h, i) => data[h] = values[i]);
+    return {
+      tenant_id: _ctx.state.get('tenant')?.id,
+      status: 'discovery',
+      data: data
+    };
+  });
+
+  if (confirm(`${leadsToInsert.length} leads will be imported. Continue?`)) {
+    for (const lead of leadsToInsert) {
+      await _ctx.supabase.db.createLead(lead);
+    }
+    alert('Import complete!');
+  }
 }
 
 async function loadLeads(rootEl) {
