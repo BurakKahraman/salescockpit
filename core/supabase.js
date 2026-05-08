@@ -58,17 +58,34 @@ export async function signOut() {
   await sb.auth.signOut();
 }
 
+import { get } from './state.js';
+
 export const db = {
   // Leads API
   async getLeads() {
     const client = await getSupabase();
-    const { data, error } = await client.from('leads').select('*').order('created_at', { ascending: false });
+    const tenantId = get('tenant')?.id;
+    const { data, error } = await client.from('leads').select('*')
+      .eq('tenant_id', tenantId)
+      .order('created_at', { ascending: false });
     if (error) throw error;
     return data;
   },
+  async createLead(lead) {
+    const client = await getSupabase();
+    const tenantId = get('tenant')?.id;
+    const { data, error } = await client.from('leads')
+      .insert([{ ...lead, tenant_id: tenantId }])
+      .select();
+    if (error) throw error;
+    return data[0];
+  },
   async upsertLead(lead) {
     const client = await getSupabase();
-    const { data, error } = await client.from('leads').upsert(lead).select();
+    const tenantId = get('tenant')?.id;
+    const { data, error } = await client.from('leads')
+      .upsert({ ...lead, tenant_id: tenantId })
+      .select();
     if (error) throw error;
     return data[0];
   },
@@ -76,7 +93,10 @@ export const db = {
   // Tasks API
   async getTasks() {
     const client = await getSupabase();
-    const { data, error } = await client.from('tasks').select('*, leads(data)').order('due_date', { ascending: true });
+    const tenantId = get('tenant')?.id;
+    const { data, error } = await client.from('tasks').select('*, leads(data)')
+      .eq('tenant_id', tenantId)
+      .order('due_date', { ascending: true });
     if (error) throw error;
     return data;
   },

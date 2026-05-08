@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SalesCockpit — The Operating System for Experience Venues</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0F172A;
+            --blue: #2563EB;
+            --bg: #F8FAFC;
+            --ink: #1E293B;
+            --ink-light: #64748B;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; }
+        
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+        
+        header { padding: 40px 0; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: 800; font-size: 24px; color: var(--navy); letter-spacing: -1px; }
+        
+        .hero { padding: 100px 0; text-align: center; }
+        h1 { font-size: 64px; font-weight: 800; line-height: 1.1; color: var(--navy); margin-bottom: 24px; letter-spacing: -2px; }
+        h1 span { color: var(--blue); }
+        .hero p { font-size: 20px; color: var(--ink-light); max-width: 600px; margin: 0 auto 40px; }
+        
+        .btn { display: inline-block; padding: 16px 32px; border-radius: 12px; font-weight: 700; text-decoration: none; transition: all 0.2s; }
+        .btn-primary { background: var(--blue); color: #fff; box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 20px 25px -5px rgba(37, 99, 235, 0.4); }
+        
+        .features { padding: 80px 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+        .f-card { background: #fff; padding: 32px; border-radius: 24px; border: 1px solid #E2E8F0; }
+        .f-card h3 { font-size: 18px; font-weight: 800; margin-bottom: 12px; color: var(--navy); }
+        .f-card p { color: var(--ink-light); font-size: 14px; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 40px; }
+            .features { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">SalesCockpit</div>
+            <a href="#demo" class="btn" style="border: 1px solid #E2E8F0; font-size: 14px;">Sign In</a>
+        </header>
+
+        <section class="hero">
+            <h1>The Operating System for <span>Experience Venues</span></h1>
+            <p>Automate your sales pipeline from inquiry to booking. Designed for VR Parks, Paintball Arenas, and Team Event Centers.</p>
+            <a href="#demo" class="btn btn-primary">Request Private Beta</a>
+        </section>
+
+        <section class="features">
+            <div class="f-card">
+                <h3>🚀 10x Faster Offers</h3>
+                <p>Generate personalized B2B/B2C offers in seconds, not hours. Dynamic pricing included.</p>
+            </div>
+            <div class="f-card">
+                <h3>📅 Real-time Sync</h3>
+                <p>Live calendar integration with Google and Outlook. Eliminate double-bookings forever.</p>
+            </div>
+            <div class="f-card">
+                <h3>⚖️ GDPR Compliant</h3>
+                <p>Data hosted in Frankfurt. DSGVO ready from day one. Built for the German market.</p>
+            </div>
+        </section>
+
+        <footer style="padding: 60px 0; border-top: 1px solid #E2E8F0; text-align: center; color: var(--ink-light); font-size: 14px;">
+            &copy; 2026 SalesCockpit (HOVR Entertainment GmbH). All rights reserved.
+        </footer>
+    </div>
+</body>
+</html>

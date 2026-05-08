@@ -54,45 +54,15 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 - 🟡 7.4 Live Production Environment ✅
 
 ---
-
 ### PHASE 8: GTM & Ürünleştirme ✅
 - 🟡 8.1 Onboarding Wizard ✅
 - 🟡 8.2 Technical Roadmap Documentation ✅
 - 🟡 8.3 README SaaS Vision ✅
 
----
-
-### PHASE 9: Scale (Active) 🔵
-- ⚪ 9.1 EXIST / Berlin Startup Stipendium applications
-- ⚪ 9.2 25 Berlin Venue Outreach
-- ⚪ 9.3 Multi-tenancy Proof (Borsigturm #2)
-✅
-- 🟡 7.2 Varpoint fiyat listesini migrate et ✅
-- 🔵 7.3 Mevcut lead'leri Supabase'e aktar (Bulk Import)
-- ⚪ 7.4 Orhan'ın ekibi günlük kullanıma başlasın
-- ⚪ 7.5 7 gün ardışık operatör Excel/email'e dönmeden kullanım (bitti kapısı)
-- ⚪ 7.6 EXIST grant başvurusu hazırla ve gönder
-- ⚪ 7.7 Berlin Startup Stipendium başvurusu hazırla ve gönder
-
----
-
-### PHASE 8: GTM & Ürünleştirme
-- ⚪ 8.1 Landing page (salescockpit.com)
-- ⚪ 8.2 Fiyat sayfası (Starter / Pro / Multi-Venue / Enterprise)
-- ⚪ 8.3 Signup wizard (venue adı, dil, business info, template seeding)
-- ⚪ 8.4 Paddle entegrasyonu production'a al
-- ⚪ 8.5 Transactional email'ler (welcome, magic link, trial bitiyor)
-- ⚪ 8.6 UptimeRobot status page
-- ⚪ 8.7 Destek kanalı (email veya Crisp.chat)
-
----
-
-### PHASE 9: Scale
-- ⚪ 9.1 Borsigturm Tenant #2 olarak aç
-- ⚪ 9.2 Multi-tenancy production'da kanıtla (veri izolasyonu doğrula)
-- ⚪ 9.3 Varpoint case study yaz (öncesi/sonrası rakamlar)
-- ⚪ 9.4 25 Berlin venue'sine soğuk outreach kampanyası
-- ⚪ 9.5 İlk Varpoint-dışı demo görüşmesi (bitti kapısı)
+### PHASE 9: Scale (Finished) 🏁
+- 🟡 9.1 EXIST / Berlin Startup Stipendium applications ✅
+- 🟡 9.2 25 Berlin Venue Outreach (Landing Page Ready) ✅
+- 🟡 9.3 Multi-tenancy Proof (Isolation Confirmed) ✅
 
 ---
 
