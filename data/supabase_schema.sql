@@ -5,6 +5,13 @@ create table tenants (
   id uuid primary key default uuid_generate_v4(),
   name text not null,
   slug text unique not null,
+  iban text,
+  bank_name text,
+  address text,
+  phone text,
+  email text,
+  google_cal_id text,
+  outlook_cal_id text,
   config jsonb default '{}'::jsonb,
   created_at timestamp with time zone default now()
 );

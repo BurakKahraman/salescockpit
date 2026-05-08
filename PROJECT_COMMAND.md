@@ -94,12 +94,17 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 
 ---
 
-### PHASE 5: Entegrasyonlar
-- ⚪ 5.1 Google Calendar sync (randevu entegrasyonu)
-- ⚪ 5.2 Outlook Calendar sync
-- ⚪ 5.3 Paddle ödeme entegrasyonu (checkout overlay + webhook)
-- ⚪ 5.4 WhatsApp Business API (lead bildirim)
-- ⚪ 5.5 DATEV/sevDesk/lexoffice export (muhasebe)
+### PHASE 5: Venue Management & Calendar Sync
+- 🔵 5.1 Business Settings Modülü: Firma bilgileri, IBAN, Banka yönetimi
+- ⚪ 5.2 Calendar Integrations: Google/Outlook link senkronizasyon alanı
+- ⚪ 5.3 Multi-tenant Calendar View: Availability modülünde aktif takvimi göster
+- ⚪ 5.4 DATEV/sevDesk export (Opsiyonel)
+
+---
+
+### PHASE 6: Telegram & Advanced Automation (Gelecek)
+- ⚪ 6.1 Telegram Bot altyapısı (Lead bildirimleri)
+- ⚪ 6.2 Telegram üzerinden hızlı yanıt sistemi
 
 ---
 
