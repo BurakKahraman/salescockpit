@@ -19,9 +19,9 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 | Alan | Değer |
 |------|-------|
 | **Active phase** | PHASE 0 — Altyapı & Proje Kurulumu |
-| **Current task** | 0.1 — Proje dizin yapısını oluştur |
-| **Last update** | 2026-05-09 00:07 · Antigravity |
-| **Blockers** | none |
+| **Current task** | 0.2 — Mevcut HTML'i çalışır durumda proje kök dizinine kopyala |
+| **Last update** | 2026-05-09 00:14 · Antigravity |
+| **Blockers** | GitHub repo URL gerekli (0.3 için) |
 
 ---
 
@@ -29,18 +29,18 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 
 | Alan | Değer |
 |------|-------|
-| **Görev ID** | 0.1 |
-| **Başlık** | Proje dizin yapısını oluştur + mevcut HTML'i kopyala |
-| **Beklenen çıktı** | `salescockpit/` klasörü altında hedef dosya ağacı iskelet olarak hazır |
-| **Başarı kriteri** | `index.html` açıldığında mevcut uygulamanın birebir çalışması |
+| **Görev ID** | 0.3 |
+| **Başlık** | GitHub repo'ya ilk push |
+| **Beklenen çıktı** | Tüm dosyalar GitHub'a push edilmiş |
+| **Başarı kriteri** | `git push` başarılı, repo'da dosyalar görünür |
 
 ---
 
 ## 4. PHASES
 
 ### PHASE 0: Altyapı & Proje Kurulumu
-- ⚪ 0.1 Proje dizin yapısını oluştur (salescockpit/ altında core/, modules/, engine/, data/, styles/)
-- ⚪ 0.2 Mevcut SalesCockpit.html'i çalışır durumda proje kök dizinine kopyala
+- 🟡 0.1 Proje dizin yapısını oluştur (core/, modules/, engine/, data/, styles/) ✅
+- 🟡 0.2 Git repo init + README + .gitignore + ilk commit ✅
 - ⚪ 0.3 GitHub repo'ya ilk push (mevcut repo'ya bağlantı)
 - ⚪ 0.4 Cloudflare Pages kurulumu (GitHub auto-deploy)
 - ⚪ 0.5 Supabase hesabı oluştur (EU Frankfurt region)
@@ -185,3 +185,5 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 | Tarih | Kim | Görev | Yeni Statü |
 |-------|-----|-------|-----------|
 | 2026-05-09 00:07 | Antigravity | PROJECT_COMMAND.md oluşturuldu | İlk versiyon |
+| 2026-05-09 00:14 | Antigravity | 0.1 Dizin yapısı oluşturuldu | ⚪→🟡 |
+| 2026-05-09 00:14 | Antigravity | 0.2 Git init + README + .gitignore + ilk commit | ⚪→🟡 |
