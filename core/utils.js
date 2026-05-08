@@ -9,6 +9,23 @@ export const q  = sel => document.querySelector(sel);
 export const qa = sel => [...document.querySelectorAll(sel)];
 export const g  = id  => document.getElementById(id);
 
+/**
+ * Show a graceful error card within a container
+ * @param {HTMLElement} el - Target element
+ * @param {string} title - Error title
+ * @param {string} msg - Error message
+ */
+export function showErrorCard(el, title, msg) {
+  el.innerHTML = `
+    <div style="padding:40px; text-align:center; background:var(--bg); border-radius:12px; border:1px solid var(--red); margin:20px;">
+      <div style="font-size:32px; margin-bottom:16px;">⚠️</div>
+      <h2 style="color:var(--navy); margin-bottom:8px;">Modul-Fehler: ${title}</h2>
+      <p style="color:var(--ink3); font-size:13px; max-width:400px; margin:0 auto;">${msg}</p>
+      <button class="btn-secondary" style="margin-top:20px;" onclick="location.reload()">App neu laden</button>
+    </div>
+  `;
+}
+
 export function el(tag, cls, html) {
   const e = document.createElement(tag);
   if (cls) e.className = cls;

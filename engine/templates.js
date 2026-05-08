@@ -4,6 +4,8 @@
  * ══════════════════════════════════════════════════════════ */
 
 import * as state from '../core/state.js';
+import { TMPL_DEFAULT } from '../data/templates.js';
+import { CFG } from '../data/config.js';
 
 /**
  * Replace placeholders in a string with data

@@ -13,7 +13,7 @@
   <aside id="sidebar">
     <div class="sb-brand">Sales<span style="color:var(--green)">Cockpit</span></div>
     <nav class="sb-nav">
-      <div class="sbi" id="sbi-builder" data-view="builder">
+      <div class="sbi active" id="sbi-builder" data-view="builder">
         <span>📋</span> <span data-de="Offer Builder" data-en="Offer Builder">Offer Builder</span>
       </div>
       <div class="sbi" id="sbi-leads" data-view="leads">
@@ -25,9 +25,18 @@
       <div class="sbi" id="sbi-avail" data-view="avail">
         <span>📅</span> <span data-de="Verfügbarkeit" data-en="Availability">Verfügbarkeit</span>
       </div>
-      <div style="margin-top:20px; padding:10px 20px; font-size:10px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:1px">Settings</div>
+      
+      <div style="margin-top:24px; padding:0 24px; font-size:10px; color:rgba(255,255,255,0.3); text-transform:uppercase; letter-spacing:1px; font-weight:700">Analytics</div>
+      <div class="sbi" id="sbi-stats" data-view="stats">
+        <span>📊</span> <span data-de="Statistik" data-en="Statistics">Statistik</span>
+      </div>
+
+      <div style="margin-top:24px; padding:0 24px; font-size:10px; color:rgba(255,255,255,0.3); text-transform:uppercase; letter-spacing:1px; font-weight:700">Settings</div>
       <div class="sbi" id="sbi-res" data-view="res">
         <span>📚</span> <span data-de="Ressourcen" data-en="Resources">Ressourcen</span>
+      </div>
+      <div class="sbi" id="sbi-auto" data-view="auto">
+        <span>🤖</span> <span data-de="Automation" data-en="Automation">Automation</span>
       </div>
     </nav>
   </aside>
@@ -35,12 +44,27 @@
   <!-- Main Content -->
   <main id="main">
     <header id="header">
-      <div id="hd-cur">Offer Builder</div>
-      <div id="hd-actions" style="display:flex; gap:12px; align-items:center">
-        <div id="user-profile" style="font-size:12px; color:var(--ink2)">
-          <span id="user-email">...</span>
+      <div style="display:flex; align-items:center; gap:24px">
+        <div id="hd-cur" style="font-size:16px; font-weight:700; color:var(--navy); min-width:120px">Offer Builder</div>
+        
+        <div class="hd-search-wrap">
+          <span class="hd-search-icon">🔍</span>
+          <input type="text" class="hd-search-input" placeholder="Search leads..." id="shell-search">
         </div>
-        <button id="btn-logout" class="btn-secondary" style="font-size:10px">Logout</button>
+      </div>
+
+      <div id="hd-actions" style="display:flex; gap:20px; align-items:center">
+        <div id="notif-bell" style="cursor:pointer; font-size:18px; position:relative">
+          🔔 <span style="position:absolute; top:-4px; right:-4px; width:14px; height:14px; background:var(--red); color:#fff; border-radius:50%; font-size:8px; display:flex; align-items:center; justify-content:center; font-weight:700">3</span>
+        </div>
+        
+        <div style="display:flex; align-items:center; gap:10px; padding-left:20px; border-left:1px solid var(--bd)">
+          <div style="text-align:right">
+            <div id="user-email" style="font-size:12px; font-weight:700; color:var(--navy)">...</div>
+            <div id="btn-logout" style="font-size:10px; color:var(--red); cursor:pointer; font-weight:600">Logout</div>
+          </div>
+          <div id="user-avatar" style="width:36px; height:36px; border-radius:50%; background:var(--green); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px">BK</div>
+        </div>
       </div>
     </header>
 
@@ -78,8 +102,20 @@
     import * as loader from './core/loader.js';
     import * as supabase from './core/supabase.js';
     import { q, g } from './core/utils.js';
+    import { CFG } from './data/config.js';
+    import { TMPL_DEFAULT } from './data/templates.js';
 
     async function init() {
+      // 0. Initialize state with defaults
+      state.patch({
+        biz: CFG.biz,
+        prices: CFG.prices,
+        priceList: CFG.priceList,
+        pkgContents: CFG.pkgContents,
+        templates: TMPL_DEFAULT,
+        stages: CFG.stages
+      });
+
       // 1. Splash logic
       g('splash').onclick = () => {
         g('splash').classList.add('gone');
@@ -99,7 +135,7 @@
         }
       }
 
-      // 3. Login logic
+      // 3. Login/Logout logic
       g('btn-login').onclick = async () => {
         const email = g('login-email').value;
         try {
@@ -111,6 +147,11 @@
         }
       };
 
+      g('btn-logout').onclick = async () => {
+        await supabase.signOut();
+        location.reload();
+      };
+
       // 4. App Boot
       async function bootApp() {
         g('login-modal').style.display = 'none';
@@ -118,11 +159,33 @@
         // Navigation handler
         async function handleNav(view) {
           router.navTo(view);
+          
+          // Update sidebar active state
+          document.querySelectorAll('.sbi').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.view === view);
+          });
+
+          // Update header title
+          const activeBtn = document.querySelector(`.sbi[data-view="${view}"]`);
+          if (activeBtn) {
+            const lang = state.get('lang') || 'de';
+            const label = activeBtn.querySelector('span:last-child');
+            g('hd-cur').textContent = label ? label.getAttribute('data-' + lang) || label.textContent : view;
+          }
+
           const rootEl = g('view-' + view);
           if (rootEl) {
+            // Hide all other views
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            rootEl.classList.add('active');
+
             // Load and mount module
-            await loader.load(view, `./modules/${view}.js`);
-            await loader.mount(view, rootEl, { state, router, loader, supabase, i18n: { T: (k) => k }, utils: {} });
+            try {
+              await loader.load(view, `./modules/${view}.js`);
+              await loader.mount(view, rootEl, { state, router, loader, supabase, i18n, utils: { g, showErrorCard } });
+            } catch (err) {
+              showErrorCard(rootEl, view, err.message);
+            }
           }
         }
 

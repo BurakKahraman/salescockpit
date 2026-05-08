@@ -40,9 +40,23 @@ export async function mount(id, rootEl, ctx) {
     showErrorCard(rootEl, id, mod._error.message);
     return;
   }
+
+  // 1. Unmount previous module if exists
+  if (activeModule && typeof activeModule.unmount === 'function') {
+    try {
+      await activeModule.unmount();
+    } catch (err) {
+      console.warn(`[loader] Unmount error in ${currentModuleId}:`, err);
+    }
+  }
+
+  // 2. Clear element and mount new
+  rootEl.innerHTML = '';
   try {
     if (typeof mod.mount === 'function') {
       await mod.mount(rootEl, ctx);
+      activeModule = mod;
+      currentModuleId = id;
     }
   } catch (err) {
     console.error(`[loader] Error mounting "${id}":`, err);

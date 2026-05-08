@@ -58,6 +58,36 @@ export async function signOut() {
   await sb.auth.signOut();
 }
 
+export const db = {
+  // Leads API
+  async getLeads() {
+    const client = await getSupabase();
+    const { data, error } = await client.from('leads').select('*').order('created_at', { ascending: false });
+    if (error) throw error;
+    return data;
+  },
+  async upsertLead(lead) {
+    const client = await getSupabase();
+    const { data, error } = await client.from('leads').upsert(lead).select();
+    if (error) throw error;
+    return data[0];
+  },
+
+  // Tasks API
+  async getTasks() {
+    const client = await getSupabase();
+    const { data, error } = await client.from('tasks').select('*, leads(data)').order('due_date', { ascending: true });
+    if (error) throw error;
+    return data;
+  },
+  async updateTask(id, updates) {
+    const client = await getSupabase();
+    const { data, error } = await client.from('tasks').update(updates).eq('id', id);
+    if (error) throw error;
+    return data;
+  }
+};
+
 /**
  * Listen to auth state changes
  * @param {Function} callback - (event, session) => void

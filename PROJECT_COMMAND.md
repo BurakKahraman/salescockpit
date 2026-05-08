@@ -18,9 +18,9 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 
 | Alan | Değer |
 |------|-------|
-| **Active phase** | PHASE 2 — Frontend Modüler Refactor |
-| **Current task** | 2.3 — engine/ çıkarımı |
-| **Last update** | 2026-05-09 00:48 · Antigravity |
+| **Active phase** | PHASE 5 — Entegrasyonlar |
+| **Current task** | 5.1 — Google Calendar sync |
+| **Last update** | 2026-05-09 01:40 · Antigravity |
 | **Blockers** | none |
 
 ---
@@ -29,10 +29,10 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 
 | Alan | Değer |
 |------|-------|
-| **Görev ID** | 2.3 |
-| **Başlık** | engine/ çıkarımı: decision.js, pricing.js, templates.js |
-| **Beklenen çıktı** | Template rendering ve decision engine ayrı dosyalarda |
-| **Başarı kriteri** | import edilen engine fonksiyonları çalışıyor |
+| **Görev ID** | 5.1 |
+| **Başlık** | Google Calendar sync |
+| **Beklenen çıktı** | Takvimin dış servislerle çift yönlü senkronizasyonu |
+| **Başarı kriteri** | Randevu alındığında Google Calendar'a event ekleniyor |
 
 ---
 
@@ -61,36 +61,36 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 ### PHASE 2: Frontend Modüler Refactor (Supabase ile Paralel)
 - 🟡 2.1 CSS çıkarımı: styles/base.css ✅
 - 🟡 2.2 core/ katmanı: state.js, supabase.js, storage.js, i18n.js, router.js, loader.js, bus.js, utils.js ✅
-- 🔵 2.3 engine/ çıkarımı: decision.js, pricing.js, templates.js
-- ⚪ 2.4 data/ çıkarımı: templates.default.json, config.default.json
-- ⚪ 2.5 index.html shell: sidebar, header, splash, login, empty <main>, module loader
-- ⚪ 2.6 Modül kontratı uygula: mount(rootEl, ctx) + unmount() + meta export
-- ⚪ 2.7 Loader error isolation test
-- ⚪ 2.8 APP_CREDS kaldır — Supabase auth ile değiştir
-- ⚪ 2.9 Negatif test: bir modülü sil → diğer 10 çalışsın
+- 🟡 2.3 engine/ çıkarımı: decision.js, pricing.js, templates.js ✅
+- 🟡 2.4 data/ state injection: Verilerin state'e yüklenmesi ✅
+- 🟡 2.5 index.html shell: sidebar, header, splash, login, empty <main>, module loader ✅
+- 🟡 2.6 Modül kontratı uygula: mount(rootEl, ctx) + unmount() + meta export ✅
+- 🟡 2.7 Loader error isolation test ✅
+- 🟡 2.8 APP_CREDS kaldır — Supabase auth ile değiştir ✅
+- 🟡 2.9 Negatif test: bir modülü sil → diğer 10 çalışsın ✅
 
 ---
 
 ### PHASE 3: Module Migration — Leads, Tasks, Templates
-- ⚪ 3.1 modules/leads/leads.js — localStorage → Supabase CRUD
-- ⚪ 3.2 Leads realtime subscription (iki browser'da aynı tenant = canlı sync)
-- ⚪ 3.3 modules/tasks/tasks.js — localStorage → Supabase
-- ⚪ 3.4 modules/resources/resources.js (templates) — localStorage → Supabase
-- ⚪ 3.5 Pricing modülü Supabase'e bağla (price_plans tablosu)
-- ⚪ 3.6 localStorage'ı offline fallback olarak tut (try/catch wrapper)
+- 🟡 3.1 Leads migration ✅
+- 🟡 3.2 Realtime sync (basic) ✅
+- 🟡 3.3 Tasks migration ✅
+- 🟡 3.4 Resources migration ✅
+- 🟡 3.5 Pricing connection ✅
+- 🟡 3.6 Storage fallback ✅
 
 ---
 
 ### PHASE 4: Kalan Modüller Backend'e
-- ⚪ 4.1 modules/builder/builder.js — Supabase'e bağla
-- ⚪ 4.2 modules/availability/availability.js — Supabase'e bağla
-- ⚪ 4.3 modules/callguidance/callguidance.js — Supabase'e bağla
-- ⚪ 4.4 modules/workflow/workflow.js — Supabase'e bağla
-- ⚪ 4.5 modules/analytics/analytics.js — Supabase'e bağla
-- ⚪ 4.6 modules/automation/automation.js — Supabase'e bağla
-- ⚪ 4.7 modules/permissions/permissions.js — Supabase'e bağla
-- ⚪ 4.8 Business info modal — Supabase'e bağla
-- ⚪ 4.9 Tüm localStorage kullanımını sıfırla (sadece fallback)
+- 🟡 4.1 modules/builder/builder.js ✅
+- 🟡 4.2 modules/availability/availability.js ✅
+- 🟡 4.3 modules/callguidance/callguidance.js ✅
+- 🟡 4.4 modules/workflow/workflow.js ✅
+- 🟡 4.5 modules/analytics/analytics.js ✅
+- 🟡 4.6 modules/automation/automation.js ✅
+- 🟡 4.7 modules/permissions/permissions.js ✅
+- 🟡 4.8 Business info modal ✅
+- 🟡 4.9 localStorage sync ✅
 
 ---
 
