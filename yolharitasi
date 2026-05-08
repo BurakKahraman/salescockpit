@@ -1,0 +1,45 @@
+PROJECT_COMMAND.md
+├── 1. HOW TO USE THIS FILE
+│   her AI ajanı bu dosyayı önce okur, NEXT ACTION'ı
+│     alır, yapar, durumunu günceller, sonraki ⚪ görevi seçer.
+│     Burak'ın el ile güncellemesi de aynı protokole bağlı.
+│
+├── 2. CURRENT STATUS (en üstte, tek bakışta görünür)
+│     Active phase: PHASE X
+│     Current task: [task ID + başlık]
+│     Last update: [tarih + kim]
+│     Blockers: [varsa, yoksa "none"]
+│
+├── 3. NEXT ACTION (tek görev, çok net)
+│     Görev ID, başlık, beklenen çıktı, başarı kriteri.
+│
+├── 4. PHASES (tüm fazlar, her fazın altında görevler)
+│     Görev statü göstergeleri:
+│         ⚪ TODO (yapılmamış, default renk)
+│         🟡 DONE (yapıldı, sarı)
+│         🔵 DOING (şu an çalışılıyor)
+│         🔴 BLOCKED (engelli, sebep yazılı)
+│
+│     Örnek:
+│     ## PHASE 1: Backend Foundation
+│     - 🟡 1.1 Supabase project created in EU Frankfurt
+│     - 🟡 1.2 Schema deployed (tenants, users, leads, tasks, ...)
+│     - 🔵 1.3 RLS policies written and tested
+│     - ⚪ 1.4 Magic link auth working end-to-end
+│     - ⚪ 1.5 First curl test passes (cross-tenant isolation verified)
+│
+├── 5. DECISIONS LOG (verilen kararlar, neden, ne zaman)
+│     Tarih sırasıyla. Geri dönülmez kararlar (region, name, schema)
+│     burada kalıcı olarak yazılı.
+│
+├── 6. OPEN QUESTIONS (cevap bekleyen sorular)
+│     Cevaplandığında DECISIONS LOG'a taşınır, listeden silinir.
+│
+├── 7. BLOCKERS (engeller, çözüm yolu, sorumlu)
+│
+└── 8. CHANGELOG (her güncelleme buraya satır eklenir)
+        [tarih] [kim] [hangi görev] [yeni statü]
+
+-------------------------
+
+
