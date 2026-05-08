@@ -29,6 +29,13 @@ export async function mount(rootEl, ctx) {
   const priceList = state.get('priceList') || {};
 
   rootEl.innerHTML = `
+    <style>
+      @media (max-width: 1024px) {
+        #builder-main { flex-direction: column !important; overflow-y: auto !important; }
+        #bl-left, #bl-right { width: 100% !important; border: none !important; border-bottom: 1px solid var(--bd); height: auto !important; }
+        #bl-center { height: 500px !important; flex: none !important; }
+      }
+    </style>
     <div id="builder-container" style="display:flex; flex-direction:column; height:100%">
       <div id="stage-tabs-bar" class="stbar" style="background:var(--s0); border-bottom:1px solid var(--bd); padding:0 12px; display:flex; gap:2px; overflow-x:auto"></div>
       

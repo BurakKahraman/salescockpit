@@ -10,6 +10,26 @@ export const qa = sel => [...document.querySelectorAll(sel)];
 export const g  = id  => document.getElementById(id);
 
 /**
+ * Export array of objects to CSV and download
+ * @param {Array} data - Array of objects
+ * @param {string} filename - Filename
+ */
+export function exportToCSV(data, filename) {
+  if (!data.length) return;
+  const headers = Object.keys(data[0]);
+  const rows = data.map(obj => headers.map(h => `"${obj[h] || ''}"`).join(','));
+  const csvContent = [headers.join(','), ...rows].join('\n');
+  
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.setAttribute('download', filename);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+/**
  * Show a graceful error card within a container
  * @param {HTMLElement} el - Target element
  * @param {string} title - Error title

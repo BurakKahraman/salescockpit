@@ -124,10 +124,60 @@ body {
   color: var(--ink3);
 }
 
-#hd-cur {
-  font-size: 16px;
-  font-weight: 700;
+/* ── RESPONSIVE SHELL ── */
+
+@media (max-width: 768px) {
+  #sidebar {
+    position: fixed;
+    left: -100%;
+    height: 100%;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  #sidebar.open {
+    left: 0;
+  }
+
+  #main {
+    width: 100%;
+  }
+
+  #header {
+    padding: 0 16px;
+  }
+
+  .hd-search-wrap {
+    display: none; /* Hide global search on small mobile to save space */
+  }
+
+  #hd-cur {
+    font-size: 14px;
+    min-width: auto;
+  }
+
+  #hd-actions {
+    gap: 12px;
+  }
+
+  #user-email {
+    display: none; /* Hide email on mobile, only show avatar */
+  }
+  
+  #menu-toggle {
+    display: flex !important;
+  }
+}
+
+#menu-toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px;
   color: var(--navy);
+  margin-right: 8px;
 }
 
 .view {

@@ -47,7 +47,8 @@
   <!-- Main Content -->
   <main id="main">
     <header id="header">
-      <div style="display:flex; align-items:center; gap:24px">
+      <div style="display:flex; align-items:center; gap:8px">
+        <div id="menu-toggle">☰</div>
         <div id="hd-cur" style="font-size:16px; font-weight:700; color:var(--navy); min-width:120px">Offer Builder</div>
         
         <div class="hd-search-wrap">
@@ -159,9 +160,17 @@
       async function bootApp() {
         g('login-modal').style.display = 'none';
         
+        // Mobile Menu Toggle
+        g('menu-toggle').onclick = () => {
+          g('sidebar').classList.toggle('open');
+        };
+
         // Navigation handler
         async function handleNav(view) {
           router.navTo(view);
+          
+          // Close mobile sidebar on nav
+          g('sidebar').classList.remove('open');
           
           // Update sidebar active state
           document.querySelectorAll('.sbi').forEach(btn => {

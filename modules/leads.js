@@ -52,7 +52,7 @@ function renderTable(container) {
   }
 
   let html = `
-    <table style="width:100%; border-collapse:collapse; font-size:13px;">
+    <table style="width:100%; min-width:600px; border-collapse:collapse; font-size:13px;">
       <thead style="background:var(--bg); border-bottom:1px solid var(--bd); position:sticky; top:0;">
         <tr>
           <th style="padding:12px; text-align:left;">Name</th>

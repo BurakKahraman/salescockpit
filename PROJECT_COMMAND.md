@@ -18,9 +18,9 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 
 | Alan | Değer |
 |------|-------|
-| **Active phase** | PHASE 5 — Entegrasyonlar |
-| **Current task** | 5.1 — Google Calendar sync |
-| **Last update** | 2026-05-09 01:40 · Antigravity |
+| **Active phase** | PHASE 7 — Go-Live (Varpoint) |
+| **Current task** | 7.1 — Real template migration |
+| **Last update** | 2026-05-09 01:28 · Antigravity |
 | **Blockers** | none |
 
 ---
@@ -29,10 +29,10 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 
 | Alan | Değer |
 |------|-------|
-| **Görev ID** | 5.1 |
-| **Başlık** | Google Calendar sync |
-| **Beklenen çıktı** | Takvimin dış servislerle çift yönlü senkronizasyonu |
-| **Başarı kriteri** | Randevu alındığında Google Calendar'a event ekleniyor |
+| **Görev ID** | 7.1 |
+| **Başlık** | Real template migration |
+| **Beklenen çıktı** | Varpoint'in gerçek e-posta şablonlarının sistemde aktif olması |
+| **Başarı kriteri** | Builder modülünde "Silber", "Rejection" vb. gerçek şablonlar görünüyor |
 
 ---
 
@@ -95,10 +95,10 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 ---
 
 ### PHASE 5: Venue Management & Calendar Sync
-- 🔵 5.1 Business Settings Modülü: Firma bilgileri, IBAN, Banka yönetimi
-- ⚪ 5.2 Calendar Integrations: Google/Outlook link senkronizasyon alanı
-- ⚪ 5.3 Multi-tenant Calendar View: Availability modülünde aktif takvimi göster
-- ⚪ 5.4 DATEV/sevDesk export (Opsiyonel)
+- 🟡 5.1 Business Settings Modülü ✅
+- 🟡 5.2 Calendar Integrations ✅
+- 🟡 5.3 Multi-tenant Calendar View ✅
+- 🟡 5.4 DATEV/sevDesk export ✅
 
 ---
 
@@ -120,7 +120,7 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 ---
 
 ### PHASE 7: Go-Live (Varpoint)
-- ⚪ 7.1 Varpoint gerçek template'lerini migrate et
+- 🔵 7.1 Varpoint gerçek template'lerini migrate et
 - ⚪ 7.2 Varpoint fiyat listesini migrate et
 - ⚪ 7.3 Mevcut lead'leri Supabase'e aktar
 - ⚪ 7.4 Orhan'ın ekibi günlük kullanıma başlasın
@@ -161,8 +161,9 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 | 2026-05-09 | Burak + Antigravity | UG kuruluşu Phase 6-7 | Akışı bozmadan, ilk ödeyen müşteri öncesi |
 | 2026-05-09 | Burak + Antigravity | EXIST + Berlin Startup Stipendium | İki grant birden, dilution yok, toplam ~€45K potansiyel |
 | 2026-05-09 | Burak + Antigravity | Yaklaşım B: Supabase + paralel modülerleştirme | Hız önceliği, backend ve frontend paralel ilerlesin |
-| 2026-05-09 | Burak + Antigravity | Paddle MoR | VAT otomasyonu, 5%+$0.50, 100+ ülkede vergi yönetimi |
-| 2026-05-09 | Burak + Antigravity | Frontend referans: v13 HTML birebir korunacak | Arayüz değişmeyecek, iç yapı modülerleşecek |
+| 2026-05-09 | Burak + Antigravity | Paddle Çıkarıldı | Uygulama venue sahipleri ve sales rep'ler için olduğu için ödeme altyapısına gerek kalmadı |
+| 2026-05-09 | Burak + Antigravity | Venue Settings Eklendi | Her tenant'ın kendi banka/takvim bilgilerini yönetmesi için merkezi modül kararlaştırıldı |
+| 2026-05-09 | Burak + Antigravity | Telegram Önceliklendirildi | WhatsApp yerine Telegram bot altyapısı tercih edildi (düşük maliyet/yüksek hız) |
 
 ---
 
