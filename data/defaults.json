@@ -1,0 +1,92 @@
+{
+  "CFG": {
+    "biz": {
+      "name": "Varpoint",
+      "tagline": "Virtual Reality Park",
+      "phone": "+49 176 70838137",
+      "addr": "Tempelhofer Damm 227, 12099 Berlin",
+      "company": "HOVR Entertainment GmbH",
+      "bank": "Berliner Volksbank",
+      "iban": "DE91 1009 0000 2970 4260 03",
+      "bic": "BEVODEBBXXX"
+    },
+    "stages": {
+      "de": {
+        "discovery": "🔍 Erstkontakt",
+        "offer": "📋 Angebot",
+        "slot": "📅 Terminbestätigung",
+        "booked": "✅ Gebucht",
+        "other": "⚡ Sonstiges"
+      },
+      "en": {
+        "discovery": "🔍 Discovery",
+        "offer": "📋 Quote",
+        "slot": "📅 Slot Confirmation",
+        "booked": "✅ Booked",
+        "other": "⚡ Other"
+      }
+    }
+  },
+  "STAGES_DEF": [
+    {
+      "key": "discovery",
+      "order": 0,
+      "de": { "name": "Erstkontakt", "short": "Discovery" },
+      "en": { "name": "Discovery", "short": "Discovery" },
+      "color": "#011848",
+      "goal": {
+        "de": "Informationslücken schließen. Gruppenart, Anlass, Budget und Flexibilität verstehen, bevor ein Angebot erstellt wird.",
+        "en": "Close information gaps. Understand group type, occasion, budget and flexibility before building an offer."
+      },
+      "cta": { "de": "Angebot vorbereiten", "en": "Prepare offer" }
+    },
+    {
+      "key": "offer",
+      "order": 1,
+      "de": { "name": "Angebot", "short": "Quote" },
+      "en": { "name": "Quote", "short": "Quote" },
+      "color": "#1B2E5E",
+      "goal": {
+        "de": "Das passende Paket auf Basis der gesammelten Signale positionieren. Empfehlung zuerst, ein klarer CTA.",
+        "en": "Position the right package based on gathered signals. Recommendation first, one clear CTA."
+      },
+      "cta": { "de": "Auswahl bestätigen", "en": "Confirm selection" }
+    },
+    {
+      "key": "slot",
+      "order": 2,
+      "de": { "name": "Verfügbarkeit", "short": "Availability" },
+      "en": { "name": "Availability", "short": "Availability" },
+      "color": "#0d7985",
+      "goal": {
+        "de": "Passendes Datum und Zeitfenster mit dem Kunden bestätigen.",
+        "en": "Confirm the right date and time window with the customer."
+      },
+      "cta": { "de": "Termin reservieren", "en": "Reserve slot" }
+    },
+    {
+      "key": "booked",
+      "order": 3,
+      "de": { "name": "Gebucht", "short": "Signed" },
+      "en": { "name": "Signed", "short": "Signed" },
+      "color": "#15803d",
+      "goal": {
+        "de": "Buchung bestätigen, Anzahlung klären und alle Details für den Eventtag festhalten.",
+        "en": "Confirm booking, clarify deposit and capture all event day details."
+      },
+      "cta": { "de": "Bestätigung senden", "en": "Send confirmation" }
+    },
+    {
+      "key": "other",
+      "order": 4,
+      "de": { "name": "Follow-up", "short": "Follow-up" },
+      "en": { "name": "Follow-up", "short": "Follow-up" },
+      "color": "#b45309",
+      "goal": {
+        "de": "Rückmeldung einholen ohne Druck. Konkreten nächsten Schritt anbieten.",
+        "en": "Collect feedback without pressure. Offer a concrete next step."
+      },
+      "cta": { "de": "Nächsten Schritt klären", "en": "Clarify next step" }
+    }
+  ]
+}

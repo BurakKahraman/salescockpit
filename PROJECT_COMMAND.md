@@ -18,10 +18,10 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 
 | Alan | Değer |
 |------|-------|
-| **Active phase** | PHASE 0 — Altyapı & Proje Kurulumu |
-| **Current task** | 0.2 — Mevcut HTML'i çalışır durumda proje kök dizinine kopyala |
-| **Last update** | 2026-05-09 00:14 · Antigravity |
-| **Blockers** | GitHub repo URL gerekli (0.3 için) |
+| **Active phase** | PHASE 2 — Frontend Modüler Refactor |
+| **Current task** | 2.3 — engine/ çıkarımı |
+| **Last update** | 2026-05-09 00:48 · Antigravity |
+| **Blockers** | none |
 
 ---
 
@@ -29,10 +29,10 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 
 | Alan | Değer |
 |------|-------|
-| **Görev ID** | 0.3 |
-| **Başlık** | GitHub repo'ya ilk push |
-| **Beklenen çıktı** | Tüm dosyalar GitHub'a push edilmiş |
-| **Başarı kriteri** | `git push` başarılı, repo'da dosyalar görünür |
+| **Görev ID** | 2.3 |
+| **Başlık** | engine/ çıkarımı: decision.js, pricing.js, templates.js |
+| **Beklenen çıktı** | Template rendering ve decision engine ayrı dosyalarda |
+| **Başarı kriteri** | import edilen engine fonksiyonları çalışıyor |
 
 ---
 
@@ -41,9 +41,9 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 ### PHASE 0: Altyapı & Proje Kurulumu
 - 🟡 0.1 Proje dizin yapısını oluştur (core/, modules/, engine/, data/, styles/) ✅
 - 🟡 0.2 Git repo init + README + .gitignore + ilk commit ✅
-- ⚪ 0.3 GitHub repo'ya ilk push (mevcut repo'ya bağlantı)
+- 🟡 0.3 GitHub repo'ya push (SSH key + merge) ✅
 - ⚪ 0.4 Cloudflare Pages kurulumu (GitHub auto-deploy)
-- ⚪ 0.5 Supabase hesabı oluştur (EU Frankfurt region)
+- 🟡 0.5 Supabase config (anon key + URL kaydedildi) ✅
 - ⚪ 0.6 Brevo hesabı oluştur (transactional email)
 
 ---
@@ -59,15 +59,15 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 ---
 
 ### PHASE 2: Frontend Modüler Refactor (Supabase ile Paralel)
-- ⚪ 2.1 CSS çıkarımı: base.css + shell.css + modül bazlı CSS dosyaları
-- ⚪ 2.2 core/ katmanı: state.js, storage.js, i18n.js, router.js, loader.js, bus.js, utils.js
-- ⚪ 2.3 engine/ çıkarımı: decision.js, pricing.js, templates.js, business-info.js
-- ⚪ 2.4 data/ çıkarımı: templates.default.json, config.default.json, pricelist.default.json
+- 🟡 2.1 CSS çıkarımı: styles/base.css ✅
+- 🟡 2.2 core/ katmanı: state.js, supabase.js, storage.js, i18n.js, router.js, loader.js, bus.js, utils.js ✅
+- 🔵 2.3 engine/ çıkarımı: decision.js, pricing.js, templates.js
+- ⚪ 2.4 data/ çıkarımı: templates.default.json, config.default.json
 - ⚪ 2.5 index.html shell: sidebar, header, splash, login, empty <main>, module loader
 - ⚪ 2.6 Modül kontratı uygula: mount(rootEl, ctx) + unmount() + meta export
-- ⚪ 2.7 Loader error isolation: bir modül çökerse diğerleri çalışmaya devam etsin
+- ⚪ 2.7 Loader error isolation test
 - ⚪ 2.8 APP_CREDS kaldır — Supabase auth ile değiştir
-- ⚪ 2.9 Negatif test: analytics.js'i sil → diğer 10 modül çalışsın → hata kartı göstersin
+- ⚪ 2.9 Negatif test: bir modülü sil → diğer 10 çalışsın
 
 ---
 
@@ -187,3 +187,7 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 | 2026-05-09 00:07 | Antigravity | PROJECT_COMMAND.md oluşturuldu | İlk versiyon |
 | 2026-05-09 00:14 | Antigravity | 0.1 Dizin yapısı oluşturuldu | ⚪→🟡 |
 | 2026-05-09 00:14 | Antigravity | 0.2 Git init + README + .gitignore + ilk commit | ⚪→🟡 |
+| 2026-05-09 00:45 | Antigravity | 0.5 Supabase config kaydedildi (core/supabase.js) | ⚪→🟡 |
+| 2026-05-09 00:47 | Antigravity | 2.1 CSS çıkarımı (styles/base.css) | ⚪→🟡 |
+| 2026-05-09 00:47 | Antigravity | 2.2 core/ 8 dosya oluşturuldu | ⚪→🟡 |
+| 2026-05-09 00:48 | Antigravity | SalesCockpit.html localhost:8000'de doğrulandı | ✅ |
