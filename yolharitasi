@@ -5,10 +5,10 @@ PROJECT_COMMAND.md
 │     Burak'ın el ile güncellemesi de aynı protokole bağlı.
 │
 ├── 2. CURRENT STATUS (en üstte, tek bakışta görünür)
-│     Active phase: PHASE X
-│     Current task: [task ID + başlık]
-│     Last update: [tarih + kim]
-│     Blockers: [varsa, yoksa "none"]
+│     Active phase: PHASE 12
+│     Current task: 12.1 — Offer Builder & Custom Offer Builder modül ayrımı
+│     Last update: 2026-05-09 13:37 · Antigravity (Claude Opus)
+│     Blockers: none
 │
 ├── 3. NEXT ACTION (tek görev, çok net)
 │     Görev ID, başlık, beklenen çıktı, başarı kriteri.
@@ -20,26 +20,38 @@ PROJECT_COMMAND.md
 │         🔵 DOING (şu an çalışılıyor)
 │         🔴 BLOCKED (engelli, sebep yazılı)
 │
-│     Örnek:
-│     ## PHASE 1: Backend Foundation
-│     - 🟡 1.1 Supabase project created in EU Frankfurt
-│     - 🟡 1.2 Schema deployed (tenants, users, leads, tasks, ...)
-│     - 🔵 1.3 RLS policies written and tested
-│     - ⚪ 1.4 Magic link auth working end-to-end
-│     - ⚪ 1.5 First curl test passes (cross-tenant isolation verified)
+│     Tamamlanmış fazlar (0-10): ✅
+│     ## PHASE 11: Template Architecture & Module Restructure ✅
+│     - 🟡 11.1 Templates → Supabase `default_templates` + `templates` tabloları
+│     - 🟡 11.2 57 orijinal şablon SQL ile Supabase'e eklendi
+│     - 🟡 11.3 Frontend → Supabase'den template çekme + nested JSON rekonstrüksiyon
+│     - 🟡 11.4 Resources modülü → tam şablon editörüne dönüştürüldü (res.js)
+│     - 🟡 11.5 call.js → "Offer Builder" olarak yeniden adlandırıldı
+│     - 🟡 11.6 builder.js → "Custom Offer Builder" olarak yeniden adlandırıldı
+│     - 🟡 11.7 Sidebar düzeni güncellendi (Offer Builder = varsayılan görünüm)
+│
+│     ## PHASE 12: Offer Builder & Custom Offer Builder Finalization 🔵
+│     - 🔵 12.1 Offer Builder (call.js) — 3 kolon: Lead, Signals/Mirrors, Email Draft
+│     - ⚪ 12.2 Custom Offer Builder (builder.js) — 3 paket seçimi, transition sentences
+│     - ⚪ 12.3 Resources (res.js) — Tam editör test & doğrulama
+│     - ⚪ 12.4 Doküman & GitHub güncelleme
 │
 ├── 5. DECISIONS LOG (verilen kararlar, neden, ne zaman)
 │     Tarih sırasıyla. Geri dönülmez kararlar (region, name, schema)
 │     burada kalıcı olarak yazılı.
 │
+│     2026-05-09: Templates artık tenants.templates JSONB yerine ayrı tablo (default_templates + templates).
+│     2026-05-09: call.js = Offer Builder (ana günlük modül), builder.js = Custom Offer Builder (özel teklif).
+│     2026-05-09: Mirrors contenteditable olarak düzenlenilebilir.
+│
 ├── 6. OPEN QUESTIONS (cevap bekleyen sorular)
 │     Cevaplandığında DECISIONS LOG'a taşınır, listeden silinir.
 │
 ├── 7. BLOCKERS (engeller, çözüm yolu, sorumlu)
+│     Şu an blocker yok.
 │
 └── 8. CHANGELOG (her güncelleme buraya satır eklenir)
         [tarih] [kim] [hangi görev] [yeni statü]
-
--------------------------
-
-
+        2026-05-09 07:55  Gemini   Template tabloları oluşturuldu (default_templates, templates)   ✅
+        2026-05-09 08:20  Gemini   Modül isimlendirme: call→Offer Builder, builder→Custom Offer Builder  ✅
+        2026-05-09 13:37  Claude   Offer Builder (call.js) 3-kolon layout yazıldı, Resources editör tamamlandı  🔵

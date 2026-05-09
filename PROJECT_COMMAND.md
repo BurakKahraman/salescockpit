@@ -18,9 +18,9 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 
 | Alan | Değer |
 |------|-------|
-| **Active phase** | PHASE 11 — Analytics & Final Polish |
-| **Current task** | 11.2 — Template Architecture Migration |
-| **Last update** | 2026-05-09 07:59 · Antigravity (Gemini) |
+| **Active phase** | PHASE 12 — Offer Builder & Custom Offer Builder Finalization |
+| **Current task** | 12.1 — Offer Builder 3-kolon layout & template entegrasyonu |
+| **Last update** | 2026-05-09 13:37 · Antigravity (Claude Opus) |
 | **Blockers** | None |
 
 ---
@@ -29,10 +29,10 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 
 | Alan | Değer |
 |------|-------|
-| **Görev ID** | 10.1 |
-| **Başlık** | Venue Admin Registration Page |
-| **Beklenen çıktı** | Self-service kayıt sayfası |
-| **Başarı kriteri** | Yeni venue owner'ın e-mail + şifre ile kayıt olabilmesi |
+| **Görev ID** | 12.2 |
+| **Başlık** | Custom Offer Builder — Multi-paket seçimi |
+| **Beklenen çıktı** | 3 pakete kadar seçip karşılaştırmalı teklif e-maili oluşturma |
+| **Başarı kriteri** | Birden fazla paket seçilip tek email draft'ta birleştirilmesi |
 
 ---
 
@@ -77,10 +77,29 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 
 ---
 
-### PHASE 10: SaaS Self-Service (Active) 🔵
-- ⚪ 10.1 Venue Admin Registration Page (Sign-Up Form)
-- ⚪ 10.2 Automated Email Verification for New Venues
-- ⚪ 10.3 Automatic Tenant Creation & Demo Data Seeding
+### PHASE 10: SaaS Self-Service ✅
+- ✅ 10.1 Venue Admin Registration Page (Sign-Up Form)
+- ✅ 10.2 Automated Email Verification for New Venues
+- ✅ 10.3 Automatic Tenant Creation & Demo Data Seeding (handle_new_user trigger)
+
+---
+
+### PHASE 11: Template Architecture & Module Restructure ✅
+- ✅ 11.1 Templates → Supabase `default_templates` + `templates` tabloları
+- ✅ 11.2 57 orijinal şablon SQL ile Supabase'e seed edildi
+- ✅ 11.3 Frontend → Supabase'den template çekme + nested JSON rekonstrüksiyon
+- ✅ 11.4 Resources modülü → tam şablon editörüne dönüştürüldü (res.js)
+- ✅ 11.5 call.js → "Offer Builder" olarak yeniden adlandırıldı
+- ✅ 11.6 builder.js → "Custom Offer Builder" olarak yeniden adlandırıldı
+- ✅ 11.7 Sidebar düzeni güncellendi (Offer Builder = varsayılan görünüm)
+
+---
+
+### PHASE 12: Offer Builder & Custom Offer Builder Finalization 🔵
+- 🔵 12.1 Offer Builder (call.js) — 3 kolon: Lead, Signals/Mirrors, Email Draft
+- ⚪ 12.2 Custom Offer Builder (builder.js) — 3 paket seçimi, transition sentences
+- ⚪ 12.3 Resources (res.js) — Tam editör test & doğrulama
+- ⚪ 12.4 Doküman & GitHub güncelleme
 
 ---
 
@@ -151,4 +170,6 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 | 2026-05-09 06:35 | Gemini | Phase 10.1 (Kayıt, Auth Triggers, Tenant Provisioning) tamamlandı | ✅ |
 | 2026-05-09 06:38 | Gemini | Modül Eksikleri (Add Lead, Tasks, Settings, Stats, Mailto) tamamlandı | ✅ |
 | 2026-05-09 07:15 | Gemini | Supabase Auth Email Confirmation Bug & Tenant State Population Fix | ✅ |
-| 2026-05-09 07:55 | Gemini | Template Architecture Migration: Moved all templates from JSON to modular Supabase tables (`default_templates`, `templates`). | ✅ |
+| 2026-05-09 07:55 | Gemini | Template Architecture Migration: Templates → ayrı Supabase tabloları | ✅ |
+| 2026-05-09 08:20 | Gemini | Modül Restructure: call→Offer Builder, builder→Custom Offer Builder, res→Editor | ✅ |
+| 2026-05-09 13:37 | Claude Opus | Offer Builder (call.js) 3-kolon layout, Resources tam editör, sidebar güncelleme | 🔵 |

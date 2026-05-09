@@ -1064,3 +1064,31 @@ Bu dört cevap geldikten sonra dosyayı oluşturuyorum.
 ### Güncelleme (9 Mayıs 2026)
 
 Kullanıcı, yeni oluşturduğu hesapla (`burak.kahraman02@gmail.com`) başarılı bir şekilde Supabase girişini yaptı. Ancak `leads` tablosu boş olduğu ve Global Arama Çubuğunda (Search leads...) arama yapamadığını iletti. Bunun üzerine arayüzdeki Arama Çubuğu aktif edilerek globalSearchQuery ile senkronize edildi. `leads.js` içerisinde yazılan yeni filtreleme sistemi sayesinde girilen arama sorgusuna göre anlık olarak Leads tablosu güncelleniyor. Ayrıca dokümantasyonlar ve GitHub repoları güncellendi.
+
+---
+
+### Güncelleme (9 Mayıs 2026 — Oturum 2, Claude Opus)
+
+**Template Architecture Migration (Phase 11) — Tamamlandı:**
+- Supabase'e iki yeni tablo eklendi: `default_templates` (57 varsayılan şablon) ve `templates` (tenant'a özel şablonlar, RLS korumalı).
+- `handle_new_user` trigger'ı güncellendi: Yeni üye kayıt olduğunda `default_templates`'ten o tenant'a otomatik kopyalama yapılıyor.
+- `supabase.js` → `getTemplates()` ve `updateTemplate()` API'leri eklendi.
+- `index.html` → Login sonrası Supabase'den şablonlar çekilip nested JSON yapısına (b2b→de→discovery→[...]) rekonstrükte ediliyor. Böylece Offer Builder, Resources gibi tüm modüller bozulmadan çalışmaya devam ediyor.
+- `settings.js` → Artık "Email Templates" JSON textbox'u kaldırıldı (şablonlar ayrı tabloda).
+
+**Modül Restructure (Phase 11.4-11.7) — Tamamlandı:**
+- `call.js` → "Offer Builder" olarak yeniden adlandırıldı. Artık sidebar'da ilk sırada ve varsayılan görünüm.
+- `builder.js` → "Custom Offer Builder" olarak yeniden adlandırıldı. Sidebar'da ikinci sırada.
+- `res.js` → Tam bir şablon editörüne dönüştürüldü. Sol tarafta ağaç yapısı (B2B/B2C → DE/EN → Stage → Template), sağ tarafta Label, Subject, Body, Mirrors düzenleme ve Supabase'e kaydetme.
+- Sidebar düzeni güncellendi, "Call Guidance" kaldırıldı.
+
+**Offer Builder Rewrite (Phase 12.1) — Devam Ediyor:**
+- `call.js` baştan yazıldı: 3 kolon layout (Lead Info | Signals & Mirrors | Email Draft).
+- Stage seçimi (Discovery, Quote, Availability, Signed, Follow-up) → Supabase'deki şablonları filtreler.
+- Signal seçilince ilgili Mirrors gösterilir (contenteditable).
+- Mirror seçilince email body otomatik render edilir ({NAME}, {GROUP}, {DATE}, {MIRROR} placeholder'ları).
+
+**Yapılacaklar (Phase 12.2-12.4):**
+- Custom Offer Builder'da birden fazla paket seçimi (3'e kadar) ve transition sentences.
+- Resources editörü tarayıcıda test ve doğrulama.
+- Tüm dokümantasyon ve GitHub güncelleme.
