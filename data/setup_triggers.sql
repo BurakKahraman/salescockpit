@@ -17,8 +17,8 @@ begin
   returning id into new_tenant_id;
 
   -- Create the profile and link to the tenant
-  insert into public.profiles (id, tenant_id, role, raw_user_meta_data)
-  values (new.id, new_tenant_id, 'admin', new.raw_user_meta_data);
+  insert into public.profiles (id, tenant_id, role, full_name)
+  values (new.id, new_tenant_id, 'admin', new.raw_user_meta_data->>'full_name');
 
   return new;
 end;
@@ -46,8 +46,8 @@ begin
     returning id into new_tenant_id;
 
     -- Upsert profile
-    insert into public.profiles (id, tenant_id, role, raw_user_meta_data)
-    values (u.id, new_tenant_id, 'admin', u.raw_user_meta_data)
+    insert into public.profiles (id, tenant_id, role, full_name)
+    values (u.id, new_tenant_id, 'admin', u.raw_user_meta_data->>'full_name')
     on conflict (id) do update set tenant_id = excluded.tenant_id;
   end loop;
 end;
