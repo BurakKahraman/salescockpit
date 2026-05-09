@@ -179,21 +179,29 @@
           if(g('user-email')) g('user-email').textContent = user.email;
           console.log('[SalesCockpit] Authenticated as:', user.email);
 
-          // Fetch Custom Tenant Config (Pricing, Templates, Stages)
+          // Fetch User Profile to get Tenant ID
           try {
-            const tConf = await supabase.db.getTenantConfig();
-            if (tConf) {
-              const currentTenant = state.get('tenant');
-              state.set('tenant', { 
-                ...currentTenant, 
-                pricing: tConf.pricing || currentTenant.pricing,
-                templates: tConf.templates || currentTenant.templates,
-                stages: tConf.stages || currentTenant.stages
-              });
-              console.log('[SalesCockpit] Custom tenant config loaded');
+            const client = await supabase.getSupabase();
+            const { data: profile } = await client.from('profiles').select('*').eq('id', user.id).single();
+            if (profile && profile.tenant_id) {
+              state.set('tenant', { id: profile.tenant_id, name: profile.full_name || 'My Venue' });
+              
+              // Fetch Custom Tenant Config (Pricing, Templates, Stages)
+              const tConf = await supabase.db.getTenantConfig();
+              if (tConf) {
+                const currentTenant = state.get('tenant');
+                state.set('tenant', { 
+                  ...currentTenant, 
+                  ...tConf, // merges name, email, pricing, templates, stages
+                  pricing: tConf.pricing || currentTenant.pricing,
+                  templates: tConf.templates || currentTenant.templates,
+                  stages: tConf.stages || currentTenant.stages
+                });
+                console.log('[SalesCockpit] Custom tenant config loaded', tConf);
+              }
             }
           } catch (e) {
-            console.warn('[SalesCockpit] Could not load tenant config:', e.message);
+            console.warn('[SalesCockpit] Could not load profile or tenant config:', e.message);
           }
 
           // Boot app only after auth and config load
@@ -262,11 +270,20 @@
             full_name: name,
             venue_name: venue
           });
-          // After signup, we log them in and reload.
-          // Note: If email confirmation is enabled in Supabase, this will fail to login immediately.
-          // Assuming email confirmation is disabled for fast onboarding:
-          await supabase.signInWithPassword(email, password);
-          location.reload();
+          
+          try {
+            await supabase.signInWithPassword(email, password);
+            location.reload();
+          } catch (signInErr) {
+             if (signInErr.message.toLowerCase().includes('email not confirmed')) {
+                g('login-msg').innerHTML = 'Erfolgreich registriert!<br>Bitte überprüfen Sie Ihre E-Mails, um das Konto zu bestätigen.';
+                g('login-msg').style.color = 'var(--green)';
+                g('login-msg').style.display = 'block';
+                g('btn-register').textContent = 'Fertig';
+             } else {
+                throw signInErr;
+             }
+          }
         } catch (err) {
           g('login-msg').textContent = 'Fehler: ' + err.message;
           g('login-msg').style.color = 'var(--red)';
