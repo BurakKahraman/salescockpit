@@ -52,11 +52,17 @@ export async function signInWithPassword(email, password) {
 }
 
 /**
- * Sign up new Venue Admin (For future registration flow)
+ * Sign up new Venue Admin
  */
-export async function signUp(email, password) {
+export async function signUp(email, password, metadata = {}) {
   const sb = await getSupabase();
-  const { data, error } = await sb.auth.signUp({ email, password });
+  const { data, error } = await sb.auth.signUp({ 
+    email, 
+    password,
+    options: {
+      data: metadata
+    }
+  });
   if (error) throw error;
   return data;
 }
@@ -110,6 +116,15 @@ export const db = {
       .order('due_date', { ascending: true });
     if (error) throw error;
     return data;
+  },
+  async createTask(task) {
+    const client = await getSupabase();
+    const tenantId = get('tenant')?.id;
+    const { data, error } = await client.from('tasks')
+      .insert([{ ...task, tenant_id: tenantId }])
+      .select();
+    if (error) throw error;
+    return data[0];
   },
   async updateTask(id, updates) {
     const client = await getSupabase();

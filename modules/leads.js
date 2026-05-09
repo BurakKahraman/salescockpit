@@ -31,13 +31,63 @@ export async function mount(rootEl, ctx) {
       <div id="leads-table-container" style="background:#fff; border:1px solid var(--bd); border-radius:12px; flex:1; overflow:auto;">
         <div style="padding:40px; text-align:center; color:var(--ink3)">Loading leads...</div>
       </div>
+      
+      <!-- Add Lead Modal -->
+      <div id="add-lead-modal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:999; justify-content:center; align-items:center;">
+        <div style="background:#fff; width:360px; padding:24px; border-radius:12px; position:relative;">
+          <h2 style="margin-bottom:16px;">New Lead</h2>
+          <input type="text" id="nl-name" class="ef-input" placeholder="Name" style="width:100%; margin-bottom:12px; padding:10px; border-radius:6px; border:1px solid var(--bd);">
+          <input type="email" id="nl-email" class="ef-input" placeholder="Email" style="width:100%; margin-bottom:12px; padding:10px; border-radius:6px; border:1px solid var(--bd);">
+          <input type="text" id="nl-phone" class="ef-input" placeholder="Phone" style="width:100%; margin-bottom:12px; padding:10px; border-radius:6px; border:1px solid var(--bd);">
+          <input type="date" id="nl-date" class="ef-input" style="width:100%; margin-bottom:16px; padding:10px; border-radius:6px; border:1px solid var(--bd);">
+          
+          <div style="display:flex; gap:10px; justify-content:flex-end;">
+            <button id="nl-cancel" class="btn-secondary">Cancel</button>
+            <button id="nl-save" class="btn-primary">Save Lead</button>
+          </div>
+        </div>
+      </div>
     </div>
   `;
 
   const fileInput = rootEl.querySelector('#csv-import-file');
   rootEl.querySelector('#btn-import').onclick = () => fileInput.click();
   rootEl.querySelector('#btn-refresh').onclick = () => loadLeads(rootEl);
-  rootEl.querySelector('#btn-add').onclick = () => alert('Add Lead Modal coming soon...');
+  
+  // Add Lead Modal Logic
+  rootEl.querySelector('#btn-add').onclick = () => {
+    rootEl.querySelector('#add-lead-modal').style.display = 'flex';
+  };
+  rootEl.querySelector('#nl-cancel').onclick = () => {
+    rootEl.querySelector('#add-lead-modal').style.display = 'none';
+  };
+  rootEl.querySelector('#nl-save').onclick = async () => {
+    const name = rootEl.querySelector('#nl-name').value;
+    const email = rootEl.querySelector('#nl-email').value;
+    const phone = rootEl.querySelector('#nl-phone').value;
+    const date = rootEl.querySelector('#nl-date').value;
+    
+    if(!name) return alert('Name is required');
+    
+    rootEl.querySelector('#nl-save').textContent = 'Saving...';
+    try {
+      await _ctx.supabase.db.createLead({
+        tenant_id: _ctx.state.get('tenant')?.id,
+        status: 'discovery',
+        data: { Name: name, Email: email, Phone: phone, EventDate: date }
+      });
+      rootEl.querySelector('#add-lead-modal').style.display = 'none';
+      rootEl.querySelector('#nl-name').value = '';
+      rootEl.querySelector('#nl-email').value = '';
+      rootEl.querySelector('#nl-phone').value = '';
+      rootEl.querySelector('#nl-date').value = '';
+      rootEl.querySelector('#nl-save').textContent = 'Save Lead';
+      loadLeads(rootEl);
+    } catch(err) {
+      alert(err.message);
+      rootEl.querySelector('#nl-save').textContent = 'Save Lead';
+    }
+  };
 
   fileInput.onchange = async (e) => {
     const file = e.target.files[0];

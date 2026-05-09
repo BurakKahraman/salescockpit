@@ -57,6 +57,21 @@ export async function mount(rootEl, ctx) {
           </div>
         </section>
       </div>
+
+      <!-- Advanced Configuration -->
+      <section style="margin-top:20px; border-top:1px solid var(--bd); padding-top:24px;">
+        <h2 style="font-size: 14px; font-weight: 700; color: var(--ink3); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px;">Advanced Config (JSON)</h2>
+        <div style="display:flex; gap:20px;">
+          <div style="flex:1;">
+            <label class="ef-lbl">Pricing Configuration</label>
+            <textarea class="ef-textarea" id="set-pricing" rows="10" style="font-family:monospace; font-size:11px;">${JSON.stringify(tenant.pricing || {}, null, 2)}</textarea>
+          </div>
+          <div style="flex:1;">
+            <label class="ef-lbl">Email Templates</label>
+            <textarea class="ef-textarea" id="set-templates" rows="10" style="font-family:monospace; font-size:11px;">${JSON.stringify(tenant.templates || {}, null, 2)}</textarea>
+          </div>
+        </div>
+      </section>
     </div>
   `;
 
@@ -78,9 +93,20 @@ async function saveSettings(rootEl) {
   };
 
   try {
-    // Supabase update logic here
-    await new Promise(r => setTimeout(r, 1000)); // Simulating
-    _ctx.state.patch({ tenant: { ..._ctx.state.get('tenant'), ...updates } });
+    const pricing = JSON.parse(rootEl.querySelector('#set-pricing').value || '{}');
+    const templates = JSON.parse(rootEl.querySelector('#set-templates').value || '{}');
+    updates.pricing = pricing;
+    updates.templates = templates;
+  } catch (e) {
+    alert('Invalid JSON in Advanced Config: ' + e.message);
+    btn.textContent = 'Save Changes';
+    btn.disabled = false;
+    return;
+  }
+
+  try {
+    const newConfig = await _ctx.supabase.db.updateTenantConfig(updates);
+    _ctx.state.patch({ tenant: newConfig, prices: newConfig.pricing, templates: newConfig.templates });
     alert('Settings saved successfully!');
   } catch (err) {
     alert('Error saving settings: ' + err.message);

@@ -51,11 +51,23 @@ create table tasks (
   created_at timestamp with time zone default now()
 );
 
+-- 5. Audit Logs
+create table audit_logs (
+  id uuid primary key default uuid_generate_v4(),
+  tenant_id uuid references tenants(id) not null,
+  user_id uuid references profiles(id) not null,
+  action text not null,
+  resource text not null,
+  details jsonb,
+  created_at timestamp with time zone default now()
+);
+
 -- 5. Row Level Security (RLS)
 alter table tenants enable row level security;
 alter table profiles enable row level security;
 alter table leads enable row level security;
 alter table tasks enable row level security;
+alter table audit_logs enable row level security;
 
 -- Policies: Only allow users to see data from their own tenant
 create policy "Users can see their own tenant" on tenants
@@ -72,3 +84,9 @@ create policy "Users can see their tenant's leads" on leads
 
 create policy "Users can see their tenant's tasks" on tasks
   for all using (tenant_id in (select tenant_id from profiles where id = auth.uid()));
+
+create policy "Users can see their tenant's audit logs" on audit_logs
+  for select using (tenant_id in (select tenant_id from profiles where id = auth.uid()));
+
+create policy "Users can insert their tenant's audit logs" on audit_logs
+  for insert with check (tenant_id in (select tenant_id from profiles where id = auth.uid()));

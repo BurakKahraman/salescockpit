@@ -21,6 +21,24 @@ export async function mount(rootEl, ctx) {
       </div>
     </div>
   `;
+  // Event Delegation for Task Completion
+  rootEl.querySelector('#tasks-list').addEventListener('click', async (e) => {
+    const btn = e.target.closest('.task-complete-btn');
+    if(btn) {
+      const taskId = btn.dataset.id;
+      btn.style.background = 'var(--green)';
+      btn.style.borderColor = 'var(--green)';
+      try {
+        await _ctx.supabase.db.updateTask(taskId, { status: 'done' });
+        loadTasks(rootEl);
+      } catch(err) {
+        alert('Failed to update task: ' + err.message);
+        btn.style.background = 'transparent';
+        btn.style.borderColor = 'var(--bd)';
+      }
+    }
+  });
+  
   loadTasks(rootEl);
 }
 
@@ -41,15 +59,19 @@ function renderTasks(container) {
     return;
   }
 
-  container.innerHTML = _tasks.map(task => `
+  container.innerHTML = _tasks.filter(t => t.status !== 'done').map(task => `
     <div style="background:#fff; border:1px solid var(--bd); border-radius:10px; padding:16px; display:flex; align-items:center; gap:16px; transition:transform 0.2s;" onmouseover="this.style.transform='translateX(4px)'" onmouseout="this.style.transform='none'">
-      <div style="width:24px; height:24px; border:2px solid var(--bd); border-radius:6px; cursor:pointer;" onclick="alert('Complete task')"></div>
+      <div class="task-complete-btn" data-id="${task.id}" style="width:24px; height:24px; border:2px solid var(--bd); border-radius:6px; cursor:pointer; transition:all 0.2s;"></div>
       <div style="flex:1">
         <div style="font-weight:700; color:var(--navy); font-size:14px;">${task.title}</div>
         <div style="font-size:11px; color:var(--ink3); margin-top:2px;">Lead: ${task.leads?.data?.Name || 'N/A'} · Due: ${task.due_date ? new Date(task.due_date).toLocaleDateString() : 'Today'}</div>
       </div>
     </div>
   `).join('');
+  
+  if (container.innerHTML === '') {
+     container.innerHTML = `<div style="padding:40px; text-align:center; background:var(--bg); border-radius:12px; color:var(--ink3)">All tasks completed. Great job!</div>`;
+  }
 }
 
 export function unmount() {

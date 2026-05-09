@@ -18,19 +18,8 @@ export async function mount(rootEl, ctx) {
         <button class="btn-secondary" id="btn-export-datev">Export for DATEV/sevDesk</button>
       </div>
       
-      <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:20px;">
-        <div style="background:#fff; padding:20px; border:1px solid var(--bd); border-radius:12px;">
-          <div style="font-size:11px; color:var(--ink3); font-weight:700;">TOTAL LEADS</div>
-          <div style="font-size:28px; font-weight:800; color:var(--navy); margin-top:4px;">128</div>
-        </div>
-        <div style="background:#fff; padding:20px; border:1px solid var(--bd); border-radius:12px;">
-          <div style="font-size:11px; color:var(--ink3); font-weight:700;">CONVERSION</div>
-          <div style="font-size:28px; font-weight:800; color:var(--green); margin-top:4px;">24%</div>
-        </div>
-        <div style="background:#fff; padding:20px; border:1px solid var(--bd); border-radius:12px;">
-          <div style="font-size:11px; color:var(--ink3); font-weight:700;">REVENUE (EST.)</div>
-          <div style="font-size:28px; font-weight:800; color:var(--navy); margin-top:4px;">€42,400</div>
-        </div>
+      <div id="stats-grid" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:20px;">
+        <div style="padding:40px; text-align:center; color:var(--ink3); grid-column:span 3;">Loading metrics...</div>
       </div>
 
       <div style="margin-top:20px; padding:20px; background:var(--bg); border-radius:12px; border:1px solid var(--bd);">
@@ -40,6 +29,8 @@ export async function mount(rootEl, ctx) {
       </div>
     </div>
   `;
+
+  loadStats(rootEl, supabase);
 
   rootEl.querySelector('#btn-export-datev').onclick = async () => {
     const leads = await supabase.db.getLeads();
@@ -52,6 +43,34 @@ export async function mount(rootEl, ctx) {
     }));
     utils.exportToCSV(exportData, `salescockpit_leads_${new Date().toISOString().split('T')[0]}.csv`);
   };
+}
+
+async function loadStats(rootEl, supabase) {
+  try {
+    const leads = await supabase.db.getLeads();
+    const total = leads.length;
+    // Assuming 'closed_won' is a status for conversion. Using 'offer' or 'done' loosely if 'closed_won' isn't explicitly set yet.
+    const won = leads.filter(l => l.status === 'closed_won' || l.status === 'done').length;
+    const rate = total > 0 ? Math.round((won / total) * 100) : 0;
+    const estRev = won * 1500; // Mock estimate per won lead
+
+    rootEl.querySelector('#stats-grid').innerHTML = `
+      <div style="background:#fff; padding:20px; border:1px solid var(--bd); border-radius:12px;">
+        <div style="font-size:11px; color:var(--ink3); font-weight:700;">TOTAL LEADS</div>
+        <div style="font-size:28px; font-weight:800; color:var(--navy); margin-top:4px;">${total}</div>
+      </div>
+      <div style="background:#fff; padding:20px; border:1px solid var(--bd); border-radius:12px;">
+        <div style="font-size:11px; color:var(--ink3); font-weight:700;">CONVERSION</div>
+        <div style="font-size:28px; font-weight:800; color:var(--green); margin-top:4px;">${rate}%</div>
+      </div>
+      <div style="background:#fff; padding:20px; border:1px solid var(--bd); border-radius:12px;">
+        <div style="font-size:11px; color:var(--ink3); font-weight:700;">REVENUE (EST.)</div>
+        <div style="font-size:28px; font-weight:800; color:var(--navy); margin-top:4px;">€${estRev.toLocaleString()}</div>
+      </div>
+    `;
+  } catch (err) {
+    rootEl.querySelector('#stats-grid').innerHTML = `<div style="padding:40px; color:var(--red);">Error loading stats</div>`;
+  }
 }
 
 export function unmount() {}

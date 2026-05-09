@@ -56,7 +56,10 @@ export async function mount(rootEl, ctx) {
         <div id="bl-center" style="flex:1; display:flex; flex-direction:column; background:#fff">
            <div id="email-toolbar" style="padding:12px 20px; border-bottom:1px solid var(--bd); display:flex; justify-content:space-between; align-items:center;">
               <div style="font-weight:700; color:var(--navy)">E-Mail Entwurf</div>
-              <button class="btn-primary" id="btn-copy">Copy to Clipboard</button>
+              <div style="display:flex; gap:8px;">
+                <button class="btn-primary" id="btn-copy">Copy to Clipboard</button>
+                <button class="btn-primary" id="btn-send" style="background:var(--blue)">Send via Mail</button>
+              </div>
            </div>
            <textarea id="email-body" class="ef-textarea" style="flex:1; border:none; padding:24px; font-family:monospace; resize:none; font-size:13px; line-height:1.6;"></textarea>
         </div>
@@ -111,6 +114,21 @@ function attachEvents(rootEl) {
           copyBtn.textContent = '✓ Copied!';
           setTimeout(() => { copyBtn.textContent = 'Copy to Clipboard'; }, 2000);
         });
+      }
+    };
+  }
+
+  // Send button
+  const sendBtn = rootEl.querySelector('#btn-send');
+  if (sendBtn) {
+    sendBtn.onclick = () => {
+      const textarea = rootEl.querySelector('#email-body');
+      if (textarea) {
+        const lead = _ctx.state.get('activeLead');
+        const email = lead?.data?.Email || '';
+        const subject = encodeURIComponent('Angebot: ' + (_ctx.state.get('selectedTier') || 'Event'));
+        const body = encodeURIComponent(textarea.value);
+        window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
       }
     };
   }
