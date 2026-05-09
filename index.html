@@ -13,8 +13,11 @@
   <aside id="sidebar">
     <div class="sb-brand">Sales<span style="color:var(--green)">Cockpit</span></div>
     <nav class="sb-nav">
-      <div class="sbi active" id="sbi-builder" data-view="builder">
-        <span>📋</span> <span data-de="Offer Builder" data-en="Offer Builder">Offer Builder</span>
+      <div class="sbi active" id="sbi-call" data-view="call">
+        <span>📞</span> <span data-de="Offer Builder" data-en="Offer Builder">Offer Builder</span>
+      </div>
+      <div class="sbi" id="sbi-builder" data-view="builder">
+        <span>📋</span> <span data-de="Custom Offer Builder" data-en="Custom Offer Builder">Custom Offer Builder</span>
       </div>
       <div class="sbi" id="sbi-leads" data-view="leads">
         <span>👥</span> <span data-de="Leads" data-en="Leads">Leads</span>
@@ -40,9 +43,6 @@
       </div>
       <div class="sbi" id="sbi-auto" data-view="auto">
         <span>🤖</span> <span data-de="Automation" data-en="Automation">Automation</span>
-      </div>
-      <div class="sbi" id="sbi-call" data-view="call">
-        <span>📞</span> <span data-de="Gesprächsleitfaden" data-en="Call Guidance">Gesprächsleitfaden</span>
       </div>
       <div class="sbi" id="sbi-wf" data-view="wf">
         <span>🔧</span> <span data-de="Workflow Architect" data-en="Workflow Architect">Workflow Architect</span>
@@ -93,7 +93,7 @@
     </header>
 
     <div id="view-container" style="flex:1; display:flex; flex-direction:column; overflow:hidden">
-      <div id="view-builder" class="view active"></div>
+      <div id="view-builder" class="view"></div>
       <div id="view-leads" class="view"></div>
       <div id="view-tasks" class="view"></div>
       <div id="view-avail" class="view"></div>
@@ -101,7 +101,7 @@
       <div id="view-stats" class="view"></div>
       <div id="view-settings" class="view"></div>
       <div id="view-auto" class="view"></div>
-      <div id="view-call" class="view"></div>
+      <div id="view-call" class="view active"></div>
       <div id="view-wf" class="view"></div>
       <div id="view-perm" class="view"></div>
     </div>
@@ -186,22 +186,45 @@
             if (profile && profile.tenant_id) {
               state.set('tenant', { id: profile.tenant_id, name: profile.full_name || 'My Venue' });
               
-              // Fetch Custom Tenant Config (Pricing, Templates, Stages)
+              // Fetch Custom Tenant Config (Pricing, Stages)
               const tConf = await supabase.db.getTenantConfig();
               if (tConf) {
                 const currentTenant = state.get('tenant');
                 state.set('tenant', { 
                   ...currentTenant, 
-                  ...tConf, // merges name, email, pricing, templates, stages
+                  ...tConf, // merges name, email, pricing, stages
                   pricing: tConf.pricing || currentTenant.pricing,
-                  templates: tConf.templates || currentTenant.templates,
                   stages: tConf.stages || currentTenant.stages
                 });
                 console.log('[SalesCockpit] Custom tenant config loaded', tConf);
               }
+              
+              // Fetch Templates
+              const tTemplates = await supabase.db.getTemplates();
+              if (tTemplates && tTemplates.length > 0) {
+                // Reconstruct nested JSON structure from flat table
+                const nestedTemplates = {};
+                for (const t of tTemplates) {
+                  if (!nestedTemplates[t.type]) nestedTemplates[t.type] = {};
+                  if (!nestedTemplates[t.type][t.lang]) nestedTemplates[t.type][t.lang] = {};
+                  if (!nestedTemplates[t.type][t.lang][t.stage]) nestedTemplates[t.type][t.lang][t.stage] = [];
+                  
+                  nestedTemplates[t.type][t.lang][t.stage].push({
+                    id: t.tmpl_id,
+                    label: t.label,
+                    stage: t.stage,
+                    ms: t.ms,
+                    subject: t.subject,
+                    body: t.body,
+                    mirrors: t.mirrors
+                  });
+                }
+                state.set('templates', nestedTemplates);
+                console.log('[SalesCockpit] Templates loaded from database', nestedTemplates);
+              }
             }
           } catch (e) {
-            console.warn('[SalesCockpit] Could not load profile or tenant config:', e.message);
+            console.warn('[SalesCockpit] Could not load profile or tenant config/templates:', e.message);
           }
 
           // Boot app only after auth and config load
@@ -377,7 +400,7 @@
             state.set('type', el.dataset.val);
             updateToggles();
             // Re-mount current view to reflect new type
-            const curView = state.get('view') || 'builder';
+            const curView = state.get('view') || 'call';
             handleNav(curView);
           };
         });
@@ -391,14 +414,14 @@
               lbl.textContent = lbl.getAttribute('data-' + el.dataset.val) || lbl.textContent;
             });
             // Re-mount current view to reflect new language
-            const curView = state.get('view') || 'builder';
+            const curView = state.get('view') || 'call';
             handleNav(curView);
           };
         });
 
         // Load initial view
         updateToggles();
-        handleNav('builder');
+        handleNav('call');
       }
     }
 

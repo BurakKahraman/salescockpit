@@ -138,7 +138,7 @@ export const db = {
     const client = await getSupabase();
     const tenantId = get('tenant')?.id;
     if (!tenantId || tenantId === '00000000-0000-0000-0000-000000000000') return null;
-    const { data, error } = await client.from('tenants').select('pricing, templates, stages, config, name, email').eq('id', tenantId).single();
+    const { data, error } = await client.from('tenants').select('pricing, stages, config, name, email').eq('id', tenantId).single();
     if (error) throw error;
     return data;
   },
@@ -150,6 +150,24 @@ export const db = {
     const { data, error } = await client.from('tenants').update(updates).eq('id', tenantId).select();
     if (error) throw error;
     return data[0];
+  },
+  
+  // Templates API
+  async getTemplates() {
+    const client = await getSupabase();
+    const tenantId = get('tenant')?.id;
+    if (!tenantId || tenantId === '00000000-0000-0000-0000-000000000000') return null;
+    const { data, error } = await client.from('templates').select('*').eq('tenant_id', tenantId);
+    if (error) throw error;
+    return data;
+  },
+  
+  async updateTemplate(tmplId, updates) {
+    const client = await getSupabase();
+    const tenantId = get('tenant')?.id;
+    const { data, error } = await client.from('templates').update(updates).eq('tenant_id', tenantId).eq('tmpl_id', tmplId);
+    if (error) throw error;
+    return data;
   }
 };
 

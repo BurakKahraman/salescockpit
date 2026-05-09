@@ -19,8 +19,8 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 | Alan | Değer |
 |------|-------|
 | **Active phase** | PHASE 11 — Analytics & Final Polish |
-| **Current task** | 11.1 — Walkthrough & Handoff |
-| **Last update** | 2026-05-09 06:40 · Antigravity (Gemini) |
+| **Current task** | 11.2 — Template Architecture Migration |
+| **Last update** | 2026-05-09 07:59 · Antigravity (Gemini) |
 | **Blockers** | None |
 
 ---
@@ -150,3 +150,5 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 | 2026-05-09 06:27 | Gemini | CSV Import Test Sonucu | 🔴 BLOCKED (Tenant Assignment Trigger Eksik) |
 | 2026-05-09 06:35 | Gemini | Phase 10.1 (Kayıt, Auth Triggers, Tenant Provisioning) tamamlandı | ✅ |
 | 2026-05-09 06:38 | Gemini | Modül Eksikleri (Add Lead, Tasks, Settings, Stats, Mailto) tamamlandı | ✅ |
+| 2026-05-09 07:15 | Gemini | Supabase Auth Email Confirmation Bug & Tenant State Population Fix | ✅ |
+| 2026-05-09 07:55 | Gemini | Template Architecture Migration: Moved all templates from JSON to modular Supabase tables (`default_templates`, `templates`). | ✅ |

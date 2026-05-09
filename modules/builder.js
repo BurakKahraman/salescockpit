@@ -11,7 +11,7 @@ import * as decision from '../engine/decision.js';
  */
 export const meta = {
   id: 'builder',
-  title: { de: 'Offer Builder', en: 'Offer Builder' },
+  title: { de: 'Custom Offer Builder', en: 'Custom Offer Builder' },
   icon: '📋'
 };
 

@@ -66,10 +66,6 @@ export async function mount(rootEl, ctx) {
             <label class="ef-lbl">Pricing Configuration</label>
             <textarea class="ef-textarea" id="set-pricing" rows="10" style="font-family:monospace; font-size:11px;">${JSON.stringify(tenant.pricing || {}, null, 2)}</textarea>
           </div>
-          <div style="flex:1;">
-            <label class="ef-lbl">Email Templates</label>
-            <textarea class="ef-textarea" id="set-templates" rows="10" style="font-family:monospace; font-size:11px;">${JSON.stringify(tenant.templates || {}, null, 2)}</textarea>
-          </div>
         </div>
       </section>
     </div>
@@ -94,9 +90,7 @@ async function saveSettings(rootEl) {
 
   try {
     const pricing = JSON.parse(rootEl.querySelector('#set-pricing').value || '{}');
-    const templates = JSON.parse(rootEl.querySelector('#set-templates').value || '{}');
     updates.pricing = pricing;
-    updates.templates = templates;
   } catch (e) {
     alert('Invalid JSON in Advanced Config: ' + e.message);
     btn.textContent = 'Save Changes';
@@ -106,7 +100,7 @@ async function saveSettings(rootEl) {
 
   try {
     const newConfig = await _ctx.supabase.db.updateTenantConfig(updates);
-    _ctx.state.patch({ tenant: newConfig, prices: newConfig.pricing, templates: newConfig.templates });
+    _ctx.state.patch({ tenant: newConfig, prices: newConfig.pricing });
     alert('Settings saved successfully!');
   } catch (err) {
     alert('Error saving settings: ' + err.message);
