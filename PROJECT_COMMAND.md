@@ -20,8 +20,8 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 |------|-------|
 | **Active phase** | PHASE 10 — SaaS Self-Service |
 | **Current task** | 10.1 — Venue Admin Registration Page |
-| **Last update** | 2026-05-09 06:10 · Antigravity (Gemini) |
-| **Blockers** | None |
+| **Last update** | 2026-05-09 06:27 · Antigravity (Gemini) |
+| **Blockers** | Yeni kullanıcılara (tenant_id) atanmadığı için Supabase RLS (Row Level Security) insert işlemlerini (örn. CSV import) reddediyor. 10.1 tamamlanmadan veri yüklenemez. |
 
 ---
 
@@ -116,7 +116,7 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 
 | # | Engel | Çözüm yolu | Sorumlu |
 |---|-------|-----------|---------| 
-| — | Şu an blocker yok | — | — |
+| 1 | RLS Policy engeli nedeniyle CSV Import yapılamıyor | Yeni kullanıcılara otomatik olarak bir tenant oluşturacak ve `profiles.tenant_id` değerini atayacak Supabase RPC (Remote Procedure Call) / Trigger (Phase 10.1 Venue Admin Registration) yazılmalı. | Antigravity |
 
 ---
 
@@ -146,3 +146,5 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 | 2026-05-09 04:30 | Claude Opus | **9.4 Kritik Production Bugfix** — 7 bug düzeltildi, tüm modüller çalışır duruma getirildi | ✅ |
 | 2026-05-09 06:10 | Gemini | DB Schema (tenants, leads) + Login Zorunluluğu Getirildi | ✅ |
 | 2026-05-09 06:15 | Gemini | Global Search (Leads Araması) eklendi ve senkronize edildi | ✅ |
+| 2026-05-09 06:25 | Gemini | data/leads.csv dosyası Supabase JSONB formatına uygun olarak temizlendi ve test edildi | ✅ |
+| 2026-05-09 06:27 | Gemini | CSV Import Test Sonucu | 🔴 BLOCKED (Tenant Assignment Trigger Eksik) |
