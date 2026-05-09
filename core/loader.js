@@ -5,6 +5,8 @@
  * ══════════════════════════════════════════════════════════ */
 
 const _modules = new Map();
+let activeModule = null;
+let currentModuleId = null;
 
 /**
  * Register and load a module dynamically

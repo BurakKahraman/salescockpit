@@ -17,7 +17,6 @@ export async function mount(rootEl, ctx) {
   const { supabase, state, utils } = ctx;
 
   rootEl.innerHTML = `
-  rootEl.innerHTML = `
     <div style="padding: 24px; display: flex; flex-direction: column; gap: 20px; height: 100%;">
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <h1 style="font-size: 24px; font-weight: 800; color: var(--navy)">Leads</h1>
@@ -49,6 +48,11 @@ export async function mount(rootEl, ctx) {
   };
 
   loadLeads(rootEl);
+
+  _ctx.state.watch('globalSearchQuery', () => {
+    const container = rootEl.querySelector('#leads-table-container');
+    if (container) renderTable(container);
+  });
 }
 
 async function processCSV(csvText) {
@@ -106,7 +110,21 @@ function renderTable(container) {
       <tbody>
   `;
 
-  _leads.forEach(lead => {
+  const query = (_ctx.state.get('globalSearchQuery') || '').toLowerCase();
+  
+  const filtered = _leads.filter(lead => {
+    if (!query) return true;
+    const d = lead.data || {};
+    const text = ((d.Name || '') + ' ' + (d.Email || '') + ' ' + (lead.status || '')).toLowerCase();
+    return text.includes(query);
+  });
+
+  if (!filtered.length) {
+    container.innerHTML = `<div style="padding:40px; text-align:center; color:var(--ink3)">No leads found matching your search.</div>`;
+    return;
+  }
+
+  filtered.forEach(lead => {
     const d = lead.data || {};
     html += `
       <tr style="border-bottom:1px solid var(--bg); transition:background 0.2s;" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'">

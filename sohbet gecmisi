@@ -1058,3 +1058,9 @@ Email servisi: Brevo (Fransa, ücretsiz tier 300 email/gün) mu, AWS SES Frankfu
 UG kuruluşu: İlk ödeyen müşteriden önce (büyük ihtimal Faz 6-7 arası) mı, hemen Faz 0'da mı?
 Grant başvurusu: EXIST + Berlin ikisine de başvurma niyetin var mı, sadece birine mi, hiçbirine mi (zaman maliyetinden dolayı)?
 Bu dört cevap geldikten sonra dosyayı oluşturuyorum.
+
+---
+
+### Güncelleme (9 Mayıs 2026)
+
+Kullanıcı, yeni oluşturduğu hesapla (`burak.kahraman02@gmail.com`) başarılı bir şekilde Supabase girişini yaptı. Ancak `leads` tablosu boş olduğu ve Global Arama Çubuğunda (Search leads...) arama yapamadığını iletti. Bunun üzerine arayüzdeki Arama Çubuğu aktif edilerek globalSearchQuery ile senkronize edildi. `leads.js` içerisinde yazılan yeni filtreleme sistemi sayesinde girilen arama sorgusuna göre anlık olarak Leads tablosu güncelleniyor. Ayrıca dokümantasyonlar ve GitHub repoları güncellendi.

@@ -116,6 +116,25 @@ export const db = {
     const { data, error } = await client.from('tasks').update(updates).eq('id', id);
     if (error) throw error;
     return data;
+  },
+
+  // Tenant Config API
+  async getTenantConfig() {
+    const client = await getSupabase();
+    const tenantId = get('tenant')?.id;
+    if (!tenantId || tenantId === '00000000-0000-0000-0000-000000000000') return null;
+    const { data, error } = await client.from('tenants').select('pricing, templates, stages, config, name, email').eq('id', tenantId).single();
+    if (error) throw error;
+    return data;
+  },
+  
+  async updateTenantConfig(updates) {
+    const client = await getSupabase();
+    const tenantId = get('tenant')?.id;
+    if (!tenantId || tenantId === '00000000-0000-0000-0000-000000000000') return null;
+    const { data, error } = await client.from('tenants').update(updates).eq('id', tenantId).select();
+    if (error) throw error;
+    return data[0];
   }
 };
 

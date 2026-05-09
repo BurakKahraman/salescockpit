@@ -189,3 +189,14 @@ body {
 .view.active {
   display: flex;
 }
+
+/* Toggle buttons in header */
+.toggle-opt {
+  color: var(--ink3);
+  user-select: none;
+}
+.toggle-opt.active {
+  background: var(--navy);
+  color: #fff;
+  border-radius: 4px;
+}

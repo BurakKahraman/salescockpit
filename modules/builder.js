@@ -2,6 +2,10 @@
  * SalesCockpit Module — builder.js
  * ══════════════════════════════════════════════════════════ */
 
+import * as pricing from '../engine/pricing.js';
+import * as templateEngine from '../engine/templates.js';
+import * as decision from '../engine/decision.js';
+
 /**
  * Module metadata
  */
@@ -18,16 +22,13 @@ let _ctx = null;
  * @param {HTMLElement} rootEl - The container element
  * @param {object} ctx - Shared context (state, bus, utils, etc.)
  */
-import * as pricing from '../engine/pricing.js';
-import * as templates from '../engine/templates.js';
-import * as decision from '../engine/decision.js';
-
 export async function mount(rootEl, ctx) {
   _ctx = ctx;
-  const { state, engine } = ctx;
+  const { state } = ctx;
   const activeLead = state.get('activeLead');
   const leadName = activeLead?.data?.Name || 'Guest';
   const type = state.get('type') || 'b2b';
+  const lang = state.get('lang') || 'de';
   const priceList = state.get('priceList') || {};
 
   rootEl.innerHTML = `
@@ -48,7 +49,7 @@ export async function mount(rootEl, ctx) {
              ${activeLead ? 'Editing: ' + leadName : 'Select a Lead'}
           </h2>
           <div style="font-size:10px; font-weight:700; color:var(--ink3); margin-bottom:12px; text-transform:uppercase">Paketauswahl</div>
-          ${renderPriceIndex(priceList[type])}
+          ${renderPriceIndex(priceList[type], lang)}
         </div>
 
         <!-- Center: Editor -->
@@ -74,53 +75,98 @@ export async function mount(rootEl, ctx) {
   updatePreview(rootEl);
 }
 
-function renderPriceIndex(families = []) {
-  return families.map(fam => `
+function renderPriceIndex(families = [], lang = 'de') {
+  return families.map(fam => {
+    const famName = typeof fam.name === 'object' ? (fam.name[lang] || fam.name.de) : fam.name;
+    return `
     <div style="margin-bottom:16px;">
-      <div style="font-size:11px; font-weight:700; color:${fam.color}; margin-bottom:4px;">${fam.name}</div>
+      <div style="font-size:11px; font-weight:700; color:${fam.color}; margin-bottom:4px;">${famName}</div>
       ${fam.tiers.map(t => `
         <div class="tier-chip" data-key="${t.key}" style="padding:6px 10px; background:#fff; border:1px solid var(--bd); border-radius:6px; font-size:12px; cursor:pointer; margin-bottom:4px;">
-          ${t.lbl.de || t.lbl}
+          ${typeof t.lbl === 'object' ? (t.lbl[lang] || t.lbl.de) : t.lbl}
         </div>
       `).join('')}
     </div>
-  `).join('');
+  `}).join('');
 }
 
 function attachEvents(rootEl) {
   rootEl.querySelectorAll('.tier-chip').forEach(chip => {
     chip.onclick = () => {
       _ctx.state.set('selectedTier', chip.dataset.key);
+      // Highlight selected
+      rootEl.querySelectorAll('.tier-chip').forEach(c => c.style.border = '1px solid var(--bd)');
+      chip.style.border = '2px solid var(--navy)';
       updatePreview(rootEl);
     };
   });
+
+  // Copy button
+  const copyBtn = rootEl.querySelector('#btn-copy');
+  if (copyBtn) {
+    copyBtn.onclick = () => {
+      const textarea = rootEl.querySelector('#email-body');
+      if (textarea) {
+        navigator.clipboard.writeText(textarea.value).then(() => {
+          copyBtn.textContent = '✓ Copied!';
+          setTimeout(() => { copyBtn.textContent = 'Copy to Clipboard'; }, 2000);
+        });
+      }
+    };
+  }
 }
 
 function updatePreview(rootEl) {
   const tierKey = _ctx.state.get('selectedTier');
   const lead = _ctx.state.get('activeLead') || { NAME: 'Burak' };
   const lang = _ctx.state.get('lang') || 'de';
+  const type = _ctx.state.get('type') || 'b2b';
+
+  if (!tierKey) {
+    rootEl.querySelector('#email-body').value = lang === 'de' 
+      ? '← Bitte wählen Sie ein Paket aus der linken Seite.' 
+      : '← Please select a package from the left panel.';
+    return;
+  }
   
   // Get package details
   const pkg = pricing.getPackageDetails(tierKey);
   const contents = pricing.getPackageContents(tierKey, lang);
   
-  // Find template (simplified for now)
-  const templates = _ctx.state.get('templates');
-  const tmpl = templates.b2b.de.offer[0]; // First offer template as default
+  // Find template from state data
+  const tmplData = _ctx.state.get('templates');
+  let tmpl = null;
   
-  const rendered = templates.render(tmpl.body, lead, {
-    placeholders: {
-      PACKAGE: pkg ? pkg.lbl[lang] : '...',
-      PKG_CONTENTS: contents
+  try {
+    const stage = _ctx.state.get('stage') || 'offer';
+    if (tmplData && tmplData[type] && tmplData[type][lang] && tmplData[type][lang][stage]) {
+      tmpl = tmplData[type][lang][stage][0]; // First template for this stage
     }
-  });
-
-  rootEl.querySelector('#email-body').value = rendered;
+  } catch(e) {
+    console.warn('[builder] Template lookup failed:', e);
+  }
+  
+  if (tmpl && typeof templateEngine.render === 'function') {
+    const rendered = templateEngine.render(tmpl.body || tmpl.ms || '', lead, {
+      placeholders: {
+        PACKAGE: pkg ? (typeof pkg.lbl === 'object' ? pkg.lbl[lang] : pkg.lbl) : '...',
+        PKG_CONTENTS: contents
+      }
+    });
+    rootEl.querySelector('#email-body').value = rendered;
+  } else {
+    // Fallback: display package info directly
+    const pkgLabel = pkg ? (typeof pkg.lbl === 'object' ? pkg.lbl[lang] : pkg.lbl) : tierKey;
+    rootEl.querySelector('#email-body').value = 
+      `${lang === 'de' ? 'Paket' : 'Package'}: ${pkgLabel}\n` +
+      `${lang === 'de' ? 'Preis' : 'Price'}: ${pricing.getPrice(tierKey, type)} €\n\n` +
+      `${contents}`;
+  }
 }
 
 function renderStageTabs(rootEl) {
   const bar = rootEl.querySelector('#stage-tabs-bar');
+  const lang = _ctx.state.get('lang') || 'de';
   const stages = [
     {key:'discovery', de:'Erstkontakt', en:'Discovery'},
     {key:'offer', de:'Angebot', en:'Quote'},
@@ -131,12 +177,13 @@ function renderStageTabs(rootEl) {
   
   stages.forEach((st, i) => {
     const btn = document.createElement('div');
-    btn.className = 'stab' + (st.key === _ctx.state.get('stage') ? ' active' : '');
-    btn.innerHTML = `<span class="stab-n">${i+1}</span> ${st[_ctx.state.get('lang')]}`;
+    btn.className = 'stab' + (st.key === (_ctx.state.get('stage') || 'discovery') ? ' active' : '');
+    btn.innerHTML = `<span class="stab-n">${i+1}</span> ${st[lang]}`;
     btn.onclick = () => {
       _ctx.state.set('stage', st.key);
       rootEl.querySelectorAll('.stab').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
+      updatePreview(rootEl);
     };
     bar.appendChild(btn);
   });

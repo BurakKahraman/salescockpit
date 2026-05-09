@@ -41,6 +41,15 @@
       <div class="sbi" id="sbi-auto" data-view="auto">
         <span>🤖</span> <span data-de="Automation" data-en="Automation">Automation</span>
       </div>
+      <div class="sbi" id="sbi-call" data-view="call">
+        <span>📞</span> <span data-de="Gesprächsleitfaden" data-en="Call Guidance">Gesprächsleitfaden</span>
+      </div>
+      <div class="sbi" id="sbi-wf" data-view="wf">
+        <span>🔧</span> <span data-de="Workflow Architect" data-en="Workflow Architect">Workflow Architect</span>
+      </div>
+      <div class="sbi" id="sbi-perm" data-view="perm">
+        <span>🔑</span> <span data-de="Berechtigungen" data-en="Permissions">Berechtigungen</span>
+      </div>
     </nav>
   </aside>
 
@@ -58,6 +67,17 @@
       </div>
 
       <div id="hd-actions" style="display:flex; gap:20px; align-items:center">
+        <!-- B2B / B2C Toggle -->
+        <div id="type-toggle" style="display:flex; gap:4px; background:var(--bg2); border-radius:6px; padding:2px; cursor:pointer">
+          <div class="toggle-opt active" data-val="b2b" style="padding:4px 10px; border-radius:4px; font-size:11px; font-weight:700; transition:all .2s">B2B</div>
+          <div class="toggle-opt" data-val="b2c" style="padding:4px 10px; border-radius:4px; font-size:11px; font-weight:700; transition:all .2s">B2C</div>
+        </div>
+        <!-- DE / EN Toggle -->
+        <div id="lang-toggle" style="display:flex; gap:4px; background:var(--bg2); border-radius:6px; padding:2px; cursor:pointer">
+          <div class="toggle-opt active" data-val="de" style="padding:4px 10px; border-radius:4px; font-size:11px; font-weight:700; transition:all .2s">DE</div>
+          <div class="toggle-opt" data-val="en" style="padding:4px 10px; border-radius:4px; font-size:11px; font-weight:700; transition:all .2s">EN</div>
+        </div>
+
         <div id="notif-bell" style="cursor:pointer; font-size:18px; position:relative">
           🔔 <span style="position:absolute; top:-4px; right:-4px; width:14px; height:14px; background:var(--red); color:#fff; border-radius:50%; font-size:8px; display:flex; align-items:center; justify-content:center; font-weight:700">3</span>
         </div>
@@ -78,12 +98,18 @@
       <div id="view-tasks" class="view"></div>
       <div id="view-avail" class="view"></div>
       <div id="view-res" class="view"></div>
+      <div id="view-stats" class="view"></div>
+      <div id="view-settings" class="view"></div>
+      <div id="view-auto" class="view"></div>
+      <div id="view-call" class="view"></div>
+      <div id="view-wf" class="view"></div>
+      <div id="view-perm" class="view"></div>
     </div>
   </main>
 
   <!-- Login Modal -->
 
-  <div id="login-modal" class="modal-overlay" style="display:none">
+  <div id="login-modal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;">
     <div class="modal-card" style="width:320px; padding:32px">
       <h2 style="margin-bottom:8px">Login</h2>
       <p style="font-size:12px; color:var(--ink3); margin-bottom:24px">Melden Sie sich mit E-Mail und Passwort an.</p>
@@ -107,6 +133,8 @@
     import { TMPL_DEFAULT } from './data/templates.js';
 
     async function init() {
+      console.log('[SalesCockpit] init() starting...');
+      
       // 0. Initialize state with defaults
       state.patch({
         biz: CFG.biz,
@@ -114,31 +142,49 @@
         priceList: CFG.priceList,
         pkgContents: CFG.pkgContents,
         templates: TMPL_DEFAULT,
-        stages: CFG.stages
+        stages: CFG.stages,
+        type: 'b2b',
+        lang: 'de'
       });
+      console.log('[SalesCockpit] State initialized');
 
-      // 1. Auth check (Auto-start)
-      async function checkAuth() {
-        try {
-          const user = await supabase.getUser();
-          
-          if (user) {
-            state.set('user', user);
-            state.set('isAuthenticated', true);
-            if(g('user-email')) g('user-email').textContent = user.email;
-            bootApp();
-          } else {
-            // Show login directly
-            if(g('login-modal')) g('login-modal').style.display = 'flex';
+      // 1. Auth check (blocking)
+      try {
+        const user = await supabase.getUser();
+        if (user) {
+          state.set('user', user);
+          state.set('isAuthenticated', true);
+          if(g('user-email')) g('user-email').textContent = user.email;
+          console.log('[SalesCockpit] Authenticated as:', user.email);
+
+          // Fetch Custom Tenant Config (Pricing, Templates, Stages)
+          try {
+            const tConf = await supabase.db.getTenantConfig();
+            if (tConf) {
+              const currentTenant = state.get('tenant');
+              state.set('tenant', { 
+                ...currentTenant, 
+                pricing: tConf.pricing || currentTenant.pricing,
+                templates: tConf.templates || currentTenant.templates,
+                stages: tConf.stages || currentTenant.stages
+              });
+              console.log('[SalesCockpit] Custom tenant config loaded');
+            }
+          } catch (e) {
+            console.warn('[SalesCockpit] Could not load tenant config:', e.message);
           }
-        } catch(err) {
-          console.error("Auth check failed:", err);
+
+          // Boot app only after auth and config load
+          bootApp();
+
+        } else {
+          console.log('[SalesCockpit] No active session — showing login');
           if(g('login-modal')) g('login-modal').style.display = 'flex';
         }
+      } catch(err) {
+        console.warn('[SalesCockpit] Auth check failed:', err.message);
+        if(g('login-modal')) g('login-modal').style.display = 'flex';
       }
-
-      // Start the auth flow immediately
-      checkAuth();
 
       // 2. Login/Logout logic
       g('btn-login').onclick = async () => {
@@ -172,6 +218,14 @@
           };
         }
 
+        // Global Search Binding
+        const searchInput = g('shell-search');
+        if (searchInput) {
+          searchInput.oninput = (e) => {
+            state.set('globalSearchQuery', e.target.value.toLowerCase());
+          };
+        }
+
         // Navigation handler
         async function handleNav(view) {
           router.navTo(view);
@@ -202,7 +256,7 @@
 
             // Load and mount module
             try {
-              await loader.load(view, `./modules/${view}.js`);
+              await loader.load(view, `/modules/${view}.js?v=${Date.now()}`);
               await loader.mount(view, rootEl, { state, router, loader, supabase, utils: { g } });
             } catch (err) {
               rootEl.innerHTML = `<div style="padding:20px; color:red">Failed to load module ${view}: ${err.message}</div>`;
@@ -214,7 +268,44 @@
           btn.onclick = () => handleNav(btn.dataset.view);
         });
 
+        // ── Toggle Handlers ──
+        function updateToggles() {
+          const curType = state.get('type') || 'b2b';
+          const curLang = state.get('lang') || 'de';
+          document.querySelectorAll('#type-toggle .toggle-opt').forEach(el => {
+            el.classList.toggle('active', el.dataset.val === curType);
+          });
+          document.querySelectorAll('#lang-toggle .toggle-opt').forEach(el => {
+            el.classList.toggle('active', el.dataset.val === curLang);
+          });
+        }
+
+        document.querySelectorAll('#type-toggle .toggle-opt').forEach(el => {
+          el.onclick = () => {
+            state.set('type', el.dataset.val);
+            updateToggles();
+            // Re-mount current view to reflect new type
+            const curView = state.get('view') || 'builder';
+            handleNav(curView);
+          };
+        });
+
+        document.querySelectorAll('#lang-toggle .toggle-opt').forEach(el => {
+          el.onclick = () => {
+            state.set('lang', el.dataset.val);
+            updateToggles();
+            // Update sidebar labels for language
+            document.querySelectorAll('.sbi span[data-de]').forEach(lbl => {
+              lbl.textContent = lbl.getAttribute('data-' + el.dataset.val) || lbl.textContent;
+            });
+            // Re-mount current view to reflect new language
+            const curView = state.get('view') || 'builder';
+            handleNav(curView);
+          };
+        });
+
         // Load initial view
+        updateToggles();
         handleNav('builder');
       }
     }

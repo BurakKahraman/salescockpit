@@ -12,7 +12,9 @@ create table tenants (
   email text,
   google_cal_id text,
   outlook_cal_id text,
-  config jsonb default '{}'::jsonb,
+  pricing jsonb default '{}'::jsonb,
+  templates jsonb default '{}'::jsonb,
+  stages jsonb default '{}'::jsonb,
   created_at timestamp with time zone default now()
 );
 
@@ -58,6 +60,9 @@ alter table tasks enable row level security;
 -- Policies: Only allow users to see data from their own tenant
 create policy "Users can see their own tenant" on tenants
   for select using (id in (select tenant_id from profiles where id = auth.uid()));
+
+create policy "Users can update their own tenant" on tenants
+  for update using (id in (select tenant_id from profiles where id = auth.uid()));
 
 create policy "Users can see their own profile" on profiles
   for select using (id = auth.uid());
