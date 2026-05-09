@@ -40,14 +40,25 @@ export async function getUser() {
 }
 
 /**
- * Sign in with magic link
+ * Sign in with Email and Password
  * @param {string} email
+ * @param {string} password
  */
-export async function signInWithMagicLink(email) {
+export async function signInWithPassword(email, password) {
   const sb = await getSupabase();
-  const { error } = await sb.auth.signInWithOtp({ email });
+  const { data, error } = await sb.auth.signInWithPassword({ email, password });
   if (error) throw error;
-  return true;
+  return data;
+}
+
+/**
+ * Sign up new Venue Admin (For future registration flow)
+ */
+export async function signUp(email, password) {
+  const sb = await getSupabase();
+  const { data, error } = await sb.auth.signUp({ email, password });
+  if (error) throw error;
+  return data;
 }
 
 /**

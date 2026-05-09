@@ -58,11 +58,21 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 - 🟡 8.1 Onboarding Wizard ✅
 - 🟡 8.2 Technical Roadmap Documentation ✅
 - 🟡 8.3 README SaaS Vision ✅
+- 🟡 8.4 Password Auth Migration (Replaced Magic Link) ✅
+
+---
 
 ### PHASE 9: Scale (Finished) 🏁
 - 🟡 9.1 EXIST / Berlin Startup Stipendium applications ✅
 - 🟡 9.2 25 Berlin Venue Outreach (Landing Page Ready) ✅
 - 🟡 9.3 Multi-tenancy Proof (Isolation Confirmed) ✅
+
+---
+
+### PHASE 10: SaaS Self-Service (Upcoming) 🔵
+- ⚪ 10.1 Venue Admin Registration Page (Sign-Up Form)
+- ⚪ 10.2 Automated Email Verification for New Venues
+- ⚪ 10.3 Automatic Tenant Creation & Demo Data Seeding
 
 ---
 
