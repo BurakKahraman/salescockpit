@@ -3,223 +3,328 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SalesCockpit SaaS</title>
+  <title>SalesCockpit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles/base.css">
   <link rel="stylesheet" href="styles/shell.css">
 </head>
 <body>
 
-  <!-- Sidebar Navigation -->
-  <aside id="sidebar">
-    <div class="sb-brand">Sales<span style="color:var(--green)">Cockpit</span></div>
-    <nav class="sb-nav">
-      <div class="sbi active" id="sbi-builder" data-view="builder">
-        <span>📋</span> <span data-de="Offer Builder" data-en="Offer Builder">Offer Builder</span>
-      </div>
-      <div class="sbi" id="sbi-leads" data-view="leads">
-        <span>👥</span> <span data-de="Leads" data-en="Leads">Leads</span>
-      </div>
-      <div class="sbi" id="sbi-tasks" data-view="tasks">
-        <span>✅</span> <span data-de="Aufgaben" data-en="Tasks">Aufgaben</span>
-      </div>
-      <div class="sbi" id="sbi-avail" data-view="avail">
-        <span>📅</span> <span data-de="Verfügbarkeit" data-en="Availability">Verfügbarkeit</span>
-      </div>
-      
-      <div style="margin-top:24px; padding:0 24px; font-size:10px; color:rgba(255,255,255,0.3); text-transform:uppercase; letter-spacing:1px; font-weight:700">Analytics</div>
-      <div class="sbi" id="sbi-stats" data-view="stats">
-        <span>📊</span> <span data-de="Statistik" data-en="Statistics">Statistik</span>
-      </div>
+  <!-- ── SPLASH ── -->
+  <div id="splash">
+    <div class="sp-bg"></div>
+    <div class="sp-grid"></div>
+    <div class="sp-logo">Sales<em>Cockpit</em></div>
+    <div class="sp-tagline">Sales Automation · VR Venues</div>
+    <div class="sp-hint">LOADING</div>
+  </div>
 
-      <div style="margin-top:24px; padding:0 24px; font-size:10px; color:rgba(255,255,255,0.3); text-transform:uppercase; letter-spacing:1px; font-weight:700">Settings</div>
-      <div class="sbi" id="sbi-settings" data-view="settings">
-        <span>⚙️</span> <span data-de="Einstellungen" data-en="Venue Settings">Venue Settings</span>
-      </div>
-      <div class="sbi" id="sbi-res" data-view="res">
-        <span>📚</span> <span data-de="Ressourcen" data-en="Resources">Ressourcen</span>
-      </div>
-      <div class="sbi" id="sbi-auto" data-view="auto">
-        <span>🤖</span> <span data-de="Automation" data-en="Automation">Automation</span>
-      </div>
-    </nav>
-  </aside>
-
-  <!-- Main Content -->
-  <main id="main">
-    <header id="header">
-      <div style="display:flex; align-items:center; gap:8px">
-        <div id="menu-toggle">☰</div>
-        <div id="hd-cur" style="font-size:16px; font-weight:700; color:var(--navy); min-width:120px">Offer Builder</div>
-        
-        <div class="hd-search-wrap">
-          <span class="hd-search-icon">🔍</span>
-          <input type="text" class="hd-search-input" placeholder="Search leads..." id="shell-search">
-        </div>
-      </div>
-
-      <div id="hd-actions" style="display:flex; gap:20px; align-items:center">
-        <div id="notif-bell" style="cursor:pointer; font-size:18px; position:relative">
-          🔔 <span style="position:absolute; top:-4px; right:-4px; width:14px; height:14px; background:var(--red); color:#fff; border-radius:50%; font-size:8px; display:flex; align-items:center; justify-content:center; font-weight:700">3</span>
-        </div>
-        
-        <div style="display:flex; align-items:center; gap:10px; padding-left:20px; border-left:1px solid var(--bd)">
-          <div style="text-align:right">
-            <div id="user-email" style="font-size:12px; font-weight:700; color:var(--navy)">...</div>
-            <div id="btn-logout" style="font-size:10px; color:var(--red); cursor:pointer; font-weight:600">Logout</div>
-          </div>
-          <div id="user-avatar" style="width:36px; height:36px; border-radius:50%; background:var(--green); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px">BK</div>
-        </div>
-      </div>
-    </header>
-
-    <div id="view-container" style="flex:1; display:flex; flex-direction:column; overflow:hidden">
-      <div id="view-builder" class="view active"></div>
-      <div id="view-leads" class="view"></div>
-      <div id="view-tasks" class="view"></div>
-      <div id="view-avail" class="view"></div>
-      <div id="view-res" class="view"></div>
-    </div>
-  </main>
-
-  <!-- Login Modal -->
-
-  <div id="login-modal" class="modal-overlay" style="display:none">
-    <div class="modal-card" style="width:320px; padding:32px">
-      <h2 style="margin-bottom:8px">Login</h2>
-      <p style="font-size:12px; color:var(--ink3); margin-bottom:24px">Melden Sie sich mit E-Mail und Passwort an.</p>
-      <input type="email" id="login-email" class="ef-input" placeholder="admin@varpoint.de" style="margin-bottom:12px; width:100%; padding:10px; border-radius:6px; border:1px solid var(--bd);">
-      <input type="password" id="login-password" class="ef-input" placeholder="Passwort (12345)" style="margin-bottom:16px; width:100%; padding:10px; border-radius:6px; border:1px solid var(--bd);">
-      <button id="btn-login" class="btn-primary" style="width:100%">Anmelden</button>
-      <div id="login-msg" style="margin-top:12px; font-size:11px; text-align:center; display:none"></div>
+  <!-- ── LOGIN ── -->
+  <div id="lp">
+    <div class="lp-bg"></div>
+    <div class="lp-grid"></div>
+    <div class="lp-wrap">
+      <div class="lp-logo">Sales<em>Cockpit</em></div>
+      <div class="lp-tag">Sales Automation Platform for VR Venues</div>
+      <label class="lp-lbl">Email Address</label>
+      <input type="email" id="login-email" class="lp-i" placeholder="admin@varpoint.de" autocomplete="email">
+      <label class="lp-lbl">Password</label>
+      <input type="password" id="login-password" class="lp-i" placeholder="••••••••" autocomplete="current-password">
+      <button id="btn-login" class="lp-btn">Sign In</button>
+      <div id="login-msg" class="lp-err"></div>
+      <div class="lp-ver">SalesCockpit · Phase 9 · EU-Frankfurt</div>
     </div>
   </div>
 
+  <!-- ── APP SHELL ── -->
+  <div id="app">
+
+    <!-- Sidebar -->
+    <aside id="sidebar">
+      <div class="sb-brand">
+        <div class="sb-title">Sales<em>Cockpit</em></div>
+        <div class="sb-sub">VR Venue Platform</div>
+      </div>
+
+      <nav class="sb-scroll">
+        <div class="sb-sec">Sales</div>
+
+        <div class="sbi active" id="sbi-builder" data-view="builder">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
+            <rect x="1.5" y="1.5" width="5.5" height="13" rx="1"/>
+            <rect x="9" y="1.5" width="5.5" height="7.5" rx="1"/>
+            <rect x="9" y="11" width="5.5" height="3.5" rx="1"/>
+          </svg>
+          <span data-de="Offer Builder" data-en="Offer Builder">Offer Builder</span>
+        </div>
+
+        <div class="sbi" id="sbi-leads" data-view="leads">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="6" cy="5" r="2.5"/>
+            <path d="M1 13.5c0-2.8 2.2-4.5 5-4.5s5 1.7 5 4.5"/>
+            <path d="M11 3a2.5 2.5 0 010 5M15 13.5c0-2.3-1.5-3.8-4-4.3"/>
+          </svg>
+          <span data-de="Leads" data-en="Leads">Leads</span>
+          <span class="sbi-badge red" id="badge-leads" style="display:none">0</span>
+        </div>
+
+        <div class="sbi" id="sbi-tasks" data-view="tasks">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M2 4h12M2 8.5h8M2 13h5"/>
+            <polyline points="12,9.5 13.5,11.5 16.5,8"/>
+          </svg>
+          <span data-de="Aufgaben" data-en="Tasks">Aufgaben</span>
+          <span class="sbi-badge amber" id="badge-tasks" style="display:none">0</span>
+        </div>
+
+        <div class="sbi" id="sbi-avail" data-view="avail">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
+            <rect x="1" y="3" width="14" height="12" rx="1.5"/>
+            <path d="M1 7.5h14M5.5 1v4M10.5 1v4"/>
+          </svg>
+          <span data-de="Verfügbarkeit" data-en="Availability">Verfügbarkeit</span>
+        </div>
+
+        <div class="sb-sec">Analytics</div>
+
+        <div class="sbi" id="sbi-stats" data-view="stats">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
+            <polyline points="1,12 4.5,7.5 7.5,9.5 11,4 14.5,6.5"/>
+            <line x1="1" y1="14.5" x2="15" y2="14.5"/>
+          </svg>
+          <span data-de="Statistik" data-en="Statistics">Statistik</span>
+        </div>
+
+        <div class="sb-sec">System</div>
+
+        <div class="sbi" id="sbi-settings" data-view="settings">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="8" cy="8" r="2.5"/>
+            <path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41"/>
+          </svg>
+          <span data-de="Einstellungen" data-en="Venue Settings">Einstellungen</span>
+        </div>
+
+        <div class="sbi" id="sbi-res" data-view="res">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M3 1.5h7l3 3V14a.5.5 0 01-.5.5h-9A.5.5 0 013 14z"/>
+            <path d="M10 1.5v3.5h3M5.5 9h5M5.5 11.5h3.5"/>
+          </svg>
+          <span data-de="Ressourcen" data-en="Resources">Ressourcen</span>
+        </div>
+
+        <div class="sbi" id="sbi-auto" data-view="auto">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M8 1.5l1.8 4.5H15l-4 2.8 1.5 4.7L8 10.7l-4.5 2.8L5 8.8 1 6h5.2z"/>
+          </svg>
+          <span data-de="Automation" data-en="Automation">Automation</span>
+        </div>
+      </nav>
+
+      <div class="sb-bottom">
+        <div class="sb-user">
+          <div class="sb-av" id="user-avatar">BK</div>
+          <div style="flex:1;min-width:0">
+            <div class="sb-un" id="user-email">Loading…</div>
+            <div class="sb-ur" id="btn-logout">Sign out</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <div id="main">
+      <header id="header">
+        <div style="display:flex;align-items:center;gap:12px">
+          <button id="menu-toggle" aria-label="Menu">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.75">
+              <line x1="2" y1="5" x2="16" y2="5"/>
+              <line x1="2" y1="9" x2="16" y2="9"/>
+              <line x1="2" y1="13" x2="16" y2="13"/>
+            </svg>
+          </button>
+          <div class="hd-bc">
+            <span>SalesCockpit</span>
+            <span class="hd-sep">/</span>
+            <span class="cur" id="hd-cur">Offer Builder</span>
+          </div>
+        </div>
+
+        <div class="hd-mid">
+          <div class="hd-srch">
+            <svg class="hd-srch-ico" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.75">
+              <circle cx="6" cy="6" r="4"/>
+              <path d="M10 10l3 3"/>
+            </svg>
+            <input type="text" placeholder="Search leads…" id="shell-search" autocomplete="off">
+            <div id="lead-drop"></div>
+          </div>
+        </div>
+
+        <div class="hd-actions">
+          <div class="hd-tg" id="type-toggle">
+            <button id="btn-b2b" class="active">B2B</button>
+            <button id="btn-b2c">B2C</button>
+          </div>
+          <span class="save-ind" id="save-ind">Saved</span>
+        </div>
+      </header>
+
+      <!-- Views -->
+      <div id="view-container">
+        <div id="view-builder"  class="view active"></div>
+        <div id="view-leads"    class="view"></div>
+        <div id="view-tasks"    class="view"></div>
+        <div id="view-avail"    class="view"></div>
+        <div id="view-stats"    class="view"></div>
+        <div id="view-settings" class="view"></div>
+        <div id="view-res"      class="view"></div>
+        <div id="view-auto"     class="view"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
   <div id="toast"></div>
 
-  <!-- Bootstrapping -->
+  <!-- Bootstrap -->
   <script type="module">
-    import * as state from './core/state.js';
-    import * as router from './core/router.js';
-    import * as loader from './core/loader.js';
+    import * as state   from './core/state.js';
+    import * as router  from './core/router.js';
+    import * as loader  from './core/loader.js';
     import * as supabase from './core/supabase.js';
-    import { q, g } from './core/utils.js';
-    import { CFG } from './data/config.js';
+    import { g }        from './core/utils.js';
+    import { CFG }      from './data/config.js';
     import { TMPL_DEFAULT } from './data/templates.js';
 
+    const splash = g('splash');
+    const lp     = g('lp');
+    const app    = g('app');
+
+    // Splash → auth check
+    setTimeout(async () => {
+      splash.classList.add('gone');
+      await init();
+    }, 1800);
+
     async function init() {
-      // 0. Initialize state with defaults
       state.patch({
-        biz: CFG.biz,
-        prices: CFG.prices,
-        priceList: CFG.priceList,
+        biz:        CFG.biz,
+        prices:     CFG.prices,
+        priceList:  CFG.priceList,
         pkgContents: CFG.pkgContents,
-        templates: TMPL_DEFAULT,
-        stages: CFG.stages
+        templates:  TMPL_DEFAULT,
+        stages:     CFG.stages
       });
 
-      // 1. Auth check (Auto-start)
-      async function checkAuth() {
-        try {
-          const user = await supabase.getUser();
-          
-          if (user) {
-            state.set('user', user);
-            state.set('isAuthenticated', true);
-            if(g('user-email')) g('user-email').textContent = user.email;
-            bootApp();
-          } else {
-            // Show login directly
-            if(g('login-modal')) g('login-modal').style.display = 'flex';
-          }
-        } catch(err) {
-          console.error("Auth check failed:", err);
-          if(g('login-modal')) g('login-modal').style.display = 'flex';
+      try {
+        const user = await supabase.getUser();
+        if (user) {
+          state.set('user', user);
+          state.set('isAuthenticated', true);
+          showApp(user);
+        } else {
+          showLogin();
         }
-      }
-
-      // Start the auth flow immediately
-      checkAuth();
-
-      // 2. Login/Logout logic
-      g('btn-login').onclick = async () => {
-        const email = g('login-email').value;
-        const password = g('login-password').value;
-        try {
-          // Using Email & Password instead of Magic Link
-          await supabase.signInWithPassword(email, password);
-          location.reload(); // Reload to trigger checkAuth and bootApp cleanly
-        } catch (err) {
-          g('login-msg').textContent = 'Fehler: ' + err.message;
-          g('login-msg').style.color = 'red';
-          g('login-msg').style.display = 'block';
-        }
-      };
-
-      g('btn-logout').onclick = async () => {
-        await supabase.signOut();
-        location.reload();
-      };
-
-      // ── BOOT APP ──
-      async function bootApp() {
-        console.log("Booting SalesCockpit...");
-        
-        // Mobile Menu Toggle
-        const menuToggle = g('menu-toggle');
-        if (menuToggle) {
-          menuToggle.onclick = () => {
-            g('sidebar').classList.toggle('open');
-          };
-        }
-
-        // Navigation handler
-        async function handleNav(view) {
-          router.navTo(view);
-          
-          // Close mobile sidebar on nav
-          if (g('sidebar')) {
-            g('sidebar').classList.remove('open');
-          }
-          
-          // Update sidebar active state
-          document.querySelectorAll('.sbi').forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.view === view);
-          });
-
-          // Update header title
-          const activeBtn = document.querySelector(`.sbi[data-view="${view}"]`);
-          if (activeBtn) {
-            const lang = state.get('lang') || 'de';
-            const label = activeBtn.querySelector('span:last-child');
-            g('hd-cur').textContent = label ? label.getAttribute('data-' + lang) || label.textContent : view;
-          }
-
-          const rootEl = g('view-' + view);
-          if (rootEl) {
-            // Hide all other views
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            rootEl.classList.add('active');
-
-            // Load and mount module
-            try {
-              await loader.load(view, `./modules/${view}.js`);
-              await loader.mount(view, rootEl, { state, router, loader, supabase, utils: { g } });
-            } catch (err) {
-              rootEl.innerHTML = `<div style="padding:20px; color:red">Failed to load module ${view}: ${err.message}</div>`;
-            }
-          }
-        }
-
-        document.querySelectorAll('.sbi').forEach(btn => {
-          btn.onclick = () => handleNav(btn.dataset.view);
-        });
-
-        // Load initial view
-        handleNav('builder');
+      } catch (err) {
+        console.error('Auth check failed:', err);
+        showLogin();
       }
     }
 
-    init();
+    function showLogin() {
+      lp.style.display = 'flex';
+    }
+
+    function showApp(user) {
+      lp.style.display = 'none';
+      app.style.display = 'flex';
+      if (g('user-email'))  g('user-email').textContent  = user.email;
+      if (g('user-avatar')) g('user-avatar').textContent = user.email.substring(0, 2).toUpperCase();
+      bootApp();
+    }
+
+    // Login
+    g('btn-login').onclick = async () => {
+      const btn = g('btn-login');
+      const msg = g('login-msg');
+      btn.textContent = 'Signing in…';
+      btn.disabled    = true;
+      msg.textContent = '';
+      try {
+        await supabase.signInWithPassword(g('login-email').value, g('login-password').value);
+        location.reload();
+      } catch (err) {
+        msg.textContent = err.message;
+        btn.textContent = 'Sign In';
+        btn.disabled    = false;
+      }
+    };
+    g('login-password').addEventListener('keydown', e => { if (e.key === 'Enter') g('btn-login').click(); });
+
+    // Logout
+    g('btn-logout').onclick = async () => {
+      await supabase.signOut();
+      location.reload();
+    };
+
+    function bootApp() {
+      // Mobile menu
+      g('menu-toggle').onclick = () => g('sidebar').classList.toggle('open');
+
+      // B2B / B2C toggle
+      g('btn-b2b').onclick = () => { state.set('type','b2b'); g('btn-b2b').classList.add('active');    g('btn-b2c').classList.remove('active'); };
+      g('btn-b2c').onclick = () => { state.set('type','b2c'); g('btn-b2c').classList.add('active');    g('btn-b2b').classList.remove('active'); };
+
+      async function handleNav(view) {
+        router.navTo(view);
+        g('sidebar').classList.remove('open');
+
+        // Sidebar active state
+        document.querySelectorAll('.sbi').forEach(btn =>
+          btn.classList.toggle('active', btn.dataset.view === view)
+        );
+
+        // Breadcrumb title
+        const activeBtn = document.querySelector(`.sbi[data-view="${view}"]`);
+        if (activeBtn) {
+          const lang  = state.get('lang') || 'de';
+          const label = activeBtn.querySelector('span:not(.sbi-badge)');
+          if (g('hd-cur') && label)
+            g('hd-cur').textContent = label.getAttribute('data-' + lang) || label.textContent;
+        }
+
+        // Swap view
+        const rootEl = g('view-' + view);
+        if (rootEl) {
+          document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+          rootEl.classList.add('active');
+          try {
+            await loader.load(view, `./modules/${view}.js`);
+            await loader.mount(view, rootEl, { state, router, loader, supabase, utils: { g } });
+          } catch (err) {
+            rootEl.innerHTML = `
+              <div style="margin:24px;padding:24px;background:var(--rbg);border:1px solid rgba(220,38,38,.2);border-radius:12px;text-align:center">
+                <div style="font-size:28px;margin-bottom:8px">⚠️</div>
+                <div style="font-weight:700;color:var(--red);margin-bottom:4px">Module "${view}" failed</div>
+                <div style="font-size:11px;color:var(--ink3)">${err.message}</div>
+                <button onclick="location.reload()" style="margin-top:12px;padding:6px 16px;border-radius:6px;border:1px solid var(--red);background:none;color:var(--red);font-size:11px;font-weight:600;cursor:pointer">Reload</button>
+              </div>`;
+          }
+        }
+      }
+
+      document.querySelectorAll('.sbi').forEach(btn => {
+        btn.onclick = () => handleNav(btn.dataset.view);
+      });
+
+      // Inter-module navigation events
+      window.addEventListener('nav', e => handleNav(e.detail));
+
+      handleNav('builder');
+    }
   </script>
 </body>
 </html>

@@ -17,7 +17,6 @@ export async function mount(rootEl, ctx) {
   const { supabase, state, utils } = ctx;
 
   rootEl.innerHTML = `
-  rootEl.innerHTML = `
     <div style="padding: 24px; display: flex; flex-direction: column; gap: 20px; height: 100%;">
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <h1 style="font-size: 24px; font-weight: 800; color: var(--navy)">Leads</h1>
