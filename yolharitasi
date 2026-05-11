@@ -6,9 +6,9 @@ PROJECT_COMMAND.md
 │
 ├── 2. CURRENT STATUS (en üstte, tek bakışta görünür)
 │     Active phase: PHASE 12
-│     Current task: 12.1 — Offer Builder & Custom Offer Builder modül ayrımı
-│     Last update: 2026-05-09 13:37 · Antigravity (Claude Opus)
-│     Blockers: none
+│     Current task: 12.3 — Fiyat Listesi & Firma Bilgilerini Supabase Backend'e Taşıma
+│     Last update: 2026-05-11 11:05 · Antigravity
+│     Blockers: Kullanıcının SQL dosyasını manuel çalıştırması gerekiyor
 │
 ├── 3. NEXT ACTION (tek görev, çok net)
 │     Görev ID, başlık, beklenen çıktı, başarı kriteri.
@@ -43,6 +43,7 @@ PROJECT_COMMAND.md
 │     2026-05-09: Templates artık tenants.templates JSONB yerine ayrı tablo (default_templates + templates).
 │     2026-05-09: call.js = Offer Builder (ana günlük modül), builder.js = Custom Offer Builder (özel teklif).
 │     2026-05-09: Mirrors contenteditable olarak düzenlenilebilir.
+│     2026-05-11: Güvenlik ve performans için firma bilgileri ve fiyatlar Supabase'e taşındı, config.js temizlendi.
 │
 ├── 6. OPEN QUESTIONS (cevap bekleyen sorular)
 │     Cevaplandığında DECISIONS LOG'a taşınır, listeden silinir.

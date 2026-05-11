@@ -19,8 +19,8 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 | Alan | Değer |
 |------|-------|
 | **Active phase** | PHASE 12 — Offer Builder & Custom Offer Builder Finalization |
-| **Current task** | 12.1 — Offer Builder 3-kolon layout & template entegrasyonu |
-| **Last update** | 2026-05-09 13:37 · Antigravity (Claude Opus) |
+| **Current task** | 12.3 — Fiyat Listesi & Firma Bilgilerini Supabase Backend'e Taşıma |
+| **Last update** | 2026-05-11 11:05 · Antigravity |
 | **Blockers** | None |
 
 ---
@@ -29,10 +29,10 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 
 | Alan | Değer |
 |------|-------|
-| **Görev ID** | 12.2 |
-| **Başlık** | Custom Offer Builder — Multi-paket seçimi |
-| **Beklenen çıktı** | 3 pakete kadar seçip karşılaştırmalı teklif e-maili oluşturma |
-| **Başarı kriteri** | Birden fazla paket seçilip tek email draft'ta birleştirilmesi |
+| **Görev ID** | 12.4 |
+| **Başlık** | Supabase SQL migration script'in çalıştırılması |
+| **Beklenen çıktı** | Kullanıcının SQL script'i çalıştırarak fiyat verilerini Supabase'e geçirmesi |
+| **Başarı kriteri** | Script çalıştırıldıktan sonra sistemin Supabase üzerinden sorunsuz okuma yapabilmesi |
 
 ---
 
@@ -173,3 +173,4 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 | 2026-05-09 07:55 | Gemini | Template Architecture Migration: Templates → ayrı Supabase tabloları | ✅ |
 | 2026-05-09 08:20 | Gemini | Modül Restructure: call→Offer Builder, builder→Custom Offer Builder, res→Editor | ✅ |
 | 2026-05-09 13:37 | Claude Opus | Offer Builder (call.js) 3-kolon layout, Resources tam editör, sidebar güncelleme | 🔵 |
+| 2026-05-11 11:05 | Antigravity | Fiyatlar ve firma bilgileri (biz, pricing, pkgContents vb.) Supabase'e taşındı | ✅ |
