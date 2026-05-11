@@ -192,10 +192,18 @@
                 const currentTenant = state.get('tenant');
                 state.set('tenant', { 
                   ...currentTenant, 
-                  ...tConf, // merges name, email, pricing, stages
-                  pricing: tConf.pricing || currentTenant.pricing,
-                  stages: tConf.stages || currentTenant.stages
+                  ...tConf // merges name, email, pricing, stages
                 });
+                
+                // Map new backend config to global state
+                if (tConf.biz_info && Object.keys(tConf.biz_info).length > 0) state.set('biz', tConf.biz_info);
+                if (tConf.pricing && Object.keys(tConf.pricing).length > 0) state.set('prices', tConf.pricing);
+                if (tConf.pkg_contents && Object.keys(tConf.pkg_contents).length > 0) state.set('pkgContents', tConf.pkg_contents);
+                if (tConf.cross_transitions && Object.keys(tConf.cross_transitions).length > 0) state.set('crossTransitions', tConf.cross_transitions);
+                if (tConf.anz && Object.keys(tConf.anz).length > 0) state.set('anz', tConf.anz);
+                if (tConf.sig && Object.keys(tConf.sig).length > 0) state.set('sig', tConf.sig);
+                if (tConf.stages && Object.keys(tConf.stages).length > 0) state.set('stages', tConf.stages);
+                
                 console.log('[SalesCockpit] Custom tenant config loaded', tConf);
               }
               

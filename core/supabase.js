@@ -138,7 +138,7 @@ export const db = {
     const client = await getSupabase();
     const tenantId = get('tenant')?.id;
     if (!tenantId || tenantId === '00000000-0000-0000-0000-000000000000') return null;
-    const { data, error } = await client.from('tenants').select('pricing, stages, config, name, email').eq('id', tenantId).single();
+    const { data, error } = await client.from('tenants').select('pricing, stages, config, name, email, phone, address, iban, bank_name, biz_info, pkg_contents, cross_transitions, anz, sig').eq('id', tenantId).single();
     if (error) throw error;
     return data;
   },
