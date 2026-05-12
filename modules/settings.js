@@ -61,10 +61,30 @@ export async function mount(rootEl, ctx) {
       <!-- Advanced Configuration -->
       <section style="margin-top:20px; border-top:1px solid var(--bd); padding-top:24px;">
         <h2 style="font-size: 14px; font-weight: 700; color: var(--ink3); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px;">Advanced Config (JSON)</h2>
-        <div style="display:flex; gap:20px;">
-          <div style="flex:1;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+          <div>
             <label class="ef-lbl">Pricing Configuration</label>
-            <textarea class="ef-textarea" id="set-pricing" rows="10" style="font-family:monospace; font-size:11px;">${JSON.stringify(tenant.pricing || {}, null, 2)}</textarea>
+            <textarea class="ef-textarea" id="set-pricing" rows="8" style="font-family:monospace; font-size:11px;">${JSON.stringify(tenant.pricing || {}, null, 2)}</textarea>
+          </div>
+          <div>
+            <label class="ef-lbl">Package Contents (pkg_contents)</label>
+            <textarea class="ef-textarea" id="set-pkg" rows="8" style="font-family:monospace; font-size:11px;">${JSON.stringify(tenant.pkg_contents || {}, null, 2)}</textarea>
+          </div>
+          <div>
+            <label class="ef-lbl">Cross Transitions</label>
+            <textarea class="ef-textarea" id="set-transitions" rows="8" style="font-family:monospace; font-size:11px;">${JSON.stringify(tenant.cross_transitions || {}, null, 2)}</textarea>
+          </div>
+          <div>
+            <label class="ef-lbl">Business Info (biz_info)</label>
+            <textarea class="ef-textarea" id="set-biz" rows="8" style="font-family:monospace; font-size:11px;">${JSON.stringify(tenant.biz_info || {}, null, 2)}</textarea>
+          </div>
+          <div>
+            <label class="ef-lbl">Deposit Metinleri (anz)</label>
+            <textarea class="ef-textarea" id="set-anz" rows="8" style="font-family:monospace; font-size:11px;">${JSON.stringify(tenant.anz || {}, null, 2)}</textarea>
+          </div>
+          <div>
+            <label class="ef-lbl">E-Mail Signature (sig)</label>
+            <textarea class="ef-textarea" id="set-sig" rows="8" style="font-family:monospace; font-size:11px;">${JSON.stringify(tenant.sig || {}, null, 2)}</textarea>
           </div>
         </div>
       </section>
@@ -89,8 +109,12 @@ async function saveSettings(rootEl) {
   };
 
   try {
-    const pricing = JSON.parse(rootEl.querySelector('#set-pricing').value || '{}');
-    updates.pricing = pricing;
+    updates.pricing = JSON.parse(rootEl.querySelector('#set-pricing').value || '{}');
+    updates.pkg_contents = JSON.parse(rootEl.querySelector('#set-pkg').value || '{}');
+    updates.cross_transitions = JSON.parse(rootEl.querySelector('#set-transitions').value || '{}');
+    updates.biz_info = JSON.parse(rootEl.querySelector('#set-biz').value || '{}');
+    updates.anz = JSON.parse(rootEl.querySelector('#set-anz').value || '{}');
+    updates.sig = JSON.parse(rootEl.querySelector('#set-sig').value || '{}');
   } catch (e) {
     alert('Invalid JSON in Advanced Config: ' + e.message);
     btn.textContent = 'Save Changes';
@@ -100,7 +124,18 @@ async function saveSettings(rootEl) {
 
   try {
     const newConfig = await _ctx.supabase.db.updateTenantConfig(updates);
-    _ctx.state.patch({ tenant: newConfig, prices: newConfig.pricing });
+    
+    // Patch local state so updates reflect immediately
+    _ctx.state.patch({ 
+      tenant: newConfig, 
+      prices: newConfig.pricing,
+      pkgContents: newConfig.pkg_contents,
+      crossTransitions: newConfig.cross_transitions,
+      biz: newConfig.biz_info,
+      anz: newConfig.anz,
+      sig: newConfig.sig
+    });
+    
     alert('Settings saved successfully!');
   } catch (err) {
     alert('Error saving settings: ' + err.message);

@@ -193,7 +193,10 @@ function buildEmailBody(tmpl, lead, lang) {
   body = body.replace(/\{GROUP\}/g, d.group_size || d.GroupSize || '');
   body = body.replace(/\{DATE\}/g, d.event_date || '');
   body = body.replace(/\{TIME\}/g, d.event_time || '');
-  body = body.replace(/\{SIGNOFF\}/g, lang === 'de' ? 'Mit freundlichen Grüßen,\nIhr Team' : 'Best regards,\nYour Team');
+  const sig = state.get('sig') || {};
+  const signoffDe = sig.de || 'Mit freundlichen Grüßen,\nIhr Team';
+  const signoffEn = sig.en || 'Best regards,\nYour Team';
+  body = body.replace(/\{SIGNOFF\}/g, lang === 'de' ? signoffDe : signoffEn);
   body = body.replace(/\{AVAIL_NOTE\}/g, '');
   body = body.replace(/\{PHOTO_NOTE\}/g, '');
   return escHtml(body);

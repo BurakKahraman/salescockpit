@@ -6,9 +6,9 @@ PROJECT_COMMAND.md
 │
 ├── 2. CURRENT STATUS (en üstte, tek bakışta görünür)
 │     Active phase: PHASE 12
-│     Current task: 12.3 — Fiyat Listesi & Firma Bilgilerini Supabase Backend'e Taşıma
-│     Last update: 2026-05-11 11:05 · Antigravity
-│     Blockers: Kullanıcının SQL dosyasını manuel çalıştırması gerekiyor
+│     Current task: 12.4 — Custom Offer Builder Multi-Package Selection & Settings Integration
+│     Last update: 2026-05-11 16:45 · Antigravity
+│     Blockers: None
 │
 ├── 3. NEXT ACTION (tek görev, çok net)
 │     Görev ID, başlık, beklenen çıktı, başarı kriteri.
@@ -44,6 +44,7 @@ PROJECT_COMMAND.md
 │     2026-05-09: call.js = Offer Builder (ana günlük modül), builder.js = Custom Offer Builder (özel teklif).
 │     2026-05-09: Mirrors contenteditable olarak düzenlenilebilir.
 │     2026-05-11: Güvenlik ve performans için firma bilgileri ve fiyatlar Supabase'e taşındı, config.js temizlendi.
+│     2026-05-11: Settings modülüne Pricing, Biz Info, Pkg Contents JSON editörleri eklendi. Custom Offer Builder'a çoklu paket (max 3) özelliği getirildi.
 │
 ├── 6. OPEN QUESTIONS (cevap bekleyen sorular)
 │     Cevaplandığında DECISIONS LOG'a taşınır, listeden silinir.

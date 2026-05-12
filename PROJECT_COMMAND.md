@@ -19,8 +19,8 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 | Alan | Değer |
 |------|-------|
 | **Active phase** | PHASE 12 — Offer Builder & Custom Offer Builder Finalization |
-| **Current task** | 12.3 — Fiyat Listesi & Firma Bilgilerini Supabase Backend'e Taşıma |
-| **Last update** | 2026-05-11 11:05 · Antigravity |
+| **Current task** | 12.4 — Custom Offer Builder Multi-Package Selection & Settings Integration |
+| **Last update** | 2026-05-11 16:45 · Antigravity |
 | **Blockers** | None |
 
 ---
@@ -174,3 +174,4 @@ Her AI ajanı (Antigravity, Claude Code, Gemini, vb.) bu dosyayı **oturuma baş
 | 2026-05-09 08:20 | Gemini | Modül Restructure: call→Offer Builder, builder→Custom Offer Builder, res→Editor | ✅ |
 | 2026-05-09 13:37 | Claude Opus | Offer Builder (call.js) 3-kolon layout, Resources tam editör, sidebar güncelleme | 🔵 |
 | 2026-05-11 11:05 | Antigravity | Fiyatlar ve firma bilgileri (biz, pricing, pkgContents vb.) Supabase'e taşındı | ✅ |
+| 2026-05-11 16:45 | Antigravity | Settings modülüne JSON editörleri eklendi, Custom Offer Builder (3 paket) düzeltildi. | ✅ |

@@ -55,10 +55,13 @@ export function render(text, lead = {}, extra = {}) {
   }
 
   // Standard blocks
+  const sig = state.get('sig') || {};
+  const anz = state.get('anz') || {};
+  
   result = result
-    .replace(/{SIGNOFF}/g, biz.sig?.[lang] || '')
-    .replace(/{ANZ}/g, biz.anz?.[`${type}_${lang}`] || '')
-    .replace(/{PHOTO_NOTE}/g, biz.photo?.[`${lang}_${type}`] || '');
+    .replace(/{SIGNOFF}/g, sig[lang] || '')
+    .replace(/{ANZ}/g, anz[`${type}_${lang}`] || '')
+    .replace(/{PHOTO_NOTE}/g, ''); // Deprecated or add to DB if needed
 
   return result;
 }

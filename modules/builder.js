@@ -96,10 +96,28 @@ function renderPriceIndex(families = [], lang = 'de') {
 function attachEvents(rootEl) {
   rootEl.querySelectorAll('.tier-chip').forEach(chip => {
     chip.onclick = () => {
-      _ctx.state.set('selectedTier', chip.dataset.key);
+      let selected = _ctx.state.get('selectedTiers') || [];
+      const key = chip.dataset.key;
+      
+      if (selected.includes(key)) {
+        selected = selected.filter(k => k !== key); // Deselect
+      } else {
+        if (selected.length < 3) selected.push(key); // Select
+        else alert(_ctx.state.get('lang') === 'de' ? 'Maximal 3 Pakete auswählbar.' : 'Maximum 3 packages selectable.');
+      }
+      
+      _ctx.state.set('selectedTiers', selected);
+      
       // Highlight selected
-      rootEl.querySelectorAll('.tier-chip').forEach(c => c.style.border = '1px solid var(--bd)');
-      chip.style.border = '2px solid var(--navy)';
+      rootEl.querySelectorAll('.tier-chip').forEach(c => {
+        if (selected.includes(c.dataset.key)) {
+          c.style.border = '2px solid var(--navy)';
+          c.style.background = 'var(--s0)';
+        } else {
+          c.style.border = '1px solid var(--bd)';
+          c.style.background = '#fff';
+        }
+      });
       updatePreview(rootEl);
     };
   });
@@ -126,7 +144,8 @@ function attachEvents(rootEl) {
       if (textarea) {
         const lead = _ctx.state.get('activeLead');
         const email = lead?.data?.Email || '';
-        const subject = encodeURIComponent('Angebot: ' + (_ctx.state.get('selectedTier') || 'Event'));
+        const sel = _ctx.state.get('selectedTiers') || [];
+        const subject = encodeURIComponent('Angebot: ' + (sel.length > 0 ? sel.join(', ') : 'Event'));
         const body = encodeURIComponent(textarea.value);
         window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
       }
@@ -135,21 +154,40 @@ function attachEvents(rootEl) {
 }
 
 function updatePreview(rootEl) {
-  const tierKey = _ctx.state.get('selectedTier');
-  const lead = _ctx.state.get('activeLead') || { NAME: 'Burak' };
+  const selectedKeys = _ctx.state.get('selectedTiers') || [];
+  const lead = _ctx.state.get('activeLead') || { NAME: 'Gast' };
   const lang = _ctx.state.get('lang') || 'de';
   const type = _ctx.state.get('type') || 'b2b';
 
-  if (!tierKey) {
+  if (selectedKeys.length === 0) {
     rootEl.querySelector('#email-body').value = lang === 'de' 
-      ? '← Bitte wählen Sie ein Paket aus der linken Seite.' 
-      : '← Please select a package from the left panel.';
+      ? '← Bitte wählen Sie bis zu 3 Pakete aus der linken Seite.' 
+      : '← Please select up to 3 packages from the left panel.';
     return;
   }
   
-  // Get package details
-  const pkg = pricing.getPackageDetails(tierKey);
-  const contents = pricing.getPackageContents(tierKey, lang);
+  // Need to get crossTransitions from state
+  const transitions = _ctx.state.get('crossTransitions') || {};
+  const transLang = transitions[lang] || {};
+
+  let packagesText = '';
+  
+  selectedKeys.forEach((tierKey, index) => {
+    const pkg = pricing.getPackageDetails(tierKey);
+    const contents = pricing.getPackageContents(tierKey, lang);
+    const price = pricing.getPrice(tierKey, type);
+    const pkgLabel = pkg ? (typeof pkg.lbl === 'object' ? pkg.lbl[lang] : pkg.lbl) : tierKey;
+    
+    let transitionSentence = '';
+    if (index > 0) {
+      const prevKey = selectedKeys[index - 1];
+      const transKey = `${prevKey}→${tierKey}`;
+      transitionSentence = transLang[transKey] || (lang === 'de' ? 'Oder als Alternative:' : 'Or as an alternative:');
+      packagesText += `\n\n${transitionSentence}\n\n`;
+    }
+    
+    packagesText += `🔹 ${pkgLabel} (${price} €)\n${contents}`;
+  });
   
   // Find template from state data
   const tmplData = _ctx.state.get('templates');
@@ -167,18 +205,14 @@ function updatePreview(rootEl) {
   if (tmpl && typeof templateEngine.render === 'function') {
     const rendered = templateEngine.render(tmpl.body || tmpl.ms || '', lead, {
       placeholders: {
-        PACKAGE: pkg ? (typeof pkg.lbl === 'object' ? pkg.lbl[lang] : pkg.lbl) : '...',
-        PKG_CONTENTS: contents
+        PACKAGE: selectedKeys.length > 1 ? (lang === 'de' ? 'verschiedene Optionen' : 'different options') : (pricing.getPackageDetails(selectedKeys[0])?.lbl?.[lang] || '...'),
+        PKG_CONTENTS: packagesText
       }
     });
     rootEl.querySelector('#email-body').value = rendered;
   } else {
-    // Fallback: display package info directly
-    const pkgLabel = pkg ? (typeof pkg.lbl === 'object' ? pkg.lbl[lang] : pkg.lbl) : tierKey;
-    rootEl.querySelector('#email-body').value = 
-      `${lang === 'de' ? 'Paket' : 'Package'}: ${pkgLabel}\n` +
-      `${lang === 'de' ? 'Preis' : 'Price'}: ${pricing.getPrice(tierKey, type)} €\n\n` +
-      `${contents}`;
+    // Fallback: display packages directly
+    rootEl.querySelector('#email-body').value = packagesText;
   }
 }
 
