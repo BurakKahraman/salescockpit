@@ -17,11 +17,11 @@ SalesCockpit is a high-performance, multi-tenant sales automation platform desig
 
 ## 🗺️ Roadmap & Scale
 - [x] Phase 0-5: Core Modular SaaS & Supabase Integration
-- [x] Phase 7: Varpoint Go-Live (Borsigturm Berlin)
+- [x] Phase 7:  Go-Live
 - [x] Phase 6: Compliance & Telegram Automation
 - [x] Phase 8: Onboarding & GTM Readiness
-- [ ] Phase 9: Scale — Onboarding 25+ venues in Berlin area.
-- [ ] Grants: Preparing **EXIST** & **Berlin Startup Stipendium** applications.
+- [ ] Phase 9: Scale — Onboarding.
+- [ ] Grants: Preparing **EXIST** & **Berlin
 
 ## 🛠️ Development
 1. Clone repo
